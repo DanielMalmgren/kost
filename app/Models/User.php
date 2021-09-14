@@ -2,43 +2,28 @@
 
 namespace App\Models;
 
-use Illuminate\Contracts\Auth\MustVerifyEmail;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Notifications\Notifiable;
-use Laravel\Sanctum\HasApiTokens;
-
-class User extends Authenticatable
+class User
 {
-    use HasApiTokens, HasFactory, Notifiable;
+    public $name;
+    public $username;
+    public $title;
+    public $organization;
+    public $personid;
+    public $isAdmin;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var string[]
-     */
-    protected $fillable = [
-        'name',
-        'email',
-        'password',
-    ];
+    public function __construct(String $username)
+    {
+        $aduser = \LdapRecord\Models\ActiveDirectory\User::where('sAMAccountName', $username)->first();
+        $adgroup = \LdapRecord\Models\ActiveDirectory\Group::find(env('ADMIN_GROUP'));
 
-    /**
-     * The attributes that should be hidden for serialization.
-     *
-     * @var array
-     */
-    protected $hidden = [
-        'password',
-        'remember_token',
-    ];
+        $this->username = $username;
+        if(isset($aduser)) {
+            $this->name = $aduser->displayName[0];
+            $this->title = substr($aduser->title[0], 0, 22);
+            $this->organization = $aduser->company[0];
+            $this->personid = $aduser->employeeID[0];
+            $this->isAdmin = $aduser->groups()->recursive()->exists($adgroup);
+        }
+    }
 
-    /**
-     * The attributes that should be cast.
-     *
-     * @var array
-     */
-    protected $casts = [
-        'email_verified_at' => 'datetime',
-    ];
 }
