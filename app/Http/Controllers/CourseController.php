@@ -73,4 +73,8 @@ class CourseController extends Controller
 
         return redirect('/')->with('success', 'Maträtten har sparats');
     }
+
+    public function destroy(Course $course) {
+        $course->delete();
+    }
 }

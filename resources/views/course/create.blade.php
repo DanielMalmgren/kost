@@ -13,15 +13,19 @@
                     <form method="post" action="{{action('CourseController@store')}}" accept-charset="UTF-8">
                         @csrf
 
-                        <div class="mb-5">
-                            <label for="name">Namn</label>
-                            <input name="name" class="form-control">
+                        <div class="form-row">
+                            <div class="col-9">
+                                <label for="name">Namn</label>
+                                <input name="name" class="form-control">
+                            </div>
+                            <div class="col">
+                                <br>
+                                <input type="hidden" name="vego" value="0">
+                                <label><input type="checkbox" name="vego" value="1">Vegetarisk</label>
+                            </div>
                         </div>
 
-                        <div class="mb-5">
-                            <input type="hidden" name="vego" value="0">
-                            <label><input type="checkbox" name="vego" value="1">Vegetarisk</label>
-                        </div>
+                        <br>
 
                         <div class="mb-5">
                             <label for="ingredients">Ingredienser</label>

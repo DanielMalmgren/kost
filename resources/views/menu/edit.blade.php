@@ -24,18 +24,23 @@
 
                 <div class="card-body">
 
-                    <label for="week">Vecka</label>
-                    <select class="custom-select d-block w-200" id="week" name="week" onchange="updateCourses()">
-                        @foreach($weeks as $week)
-                            <option {{$week==$current_week?"selected":""}} value="{{$week}}">{{$week}}</option>
-                        @endforeach
-                    </select>
-
-                    <label for="menu">Meny</label>
-                    <select class="custom-select d-block w-200" id="type" name="type" onchange="updateCourses()">
-                        <option selected value="Normal">Normal</option>
-                        <option value="Vegetarisk">Vegetarisk</option>
-                    </select>
+                    <div class="form-row">
+                        <div class="col">
+                            <label for="week">Vecka</label>
+                            <select class="custom-select d-block w-200" id="week" name="week" onchange="updateCourses()">
+                                @foreach($weeks as $week)
+                                    <option {{$week==$current_week?"selected":""}} value="{{$week}}">{{$week}}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="col">
+                            <label for="menu">Meny</label>
+                            <select class="custom-select d-block w-200" id="type" name="type" onchange="updateCourses()">
+                                <option selected value="Normal">Normal</option>
+                                <option value="Vegetarisk">Vegetarisk</option>
+                            </select>
+                        </div>
+                    </div>
 
                     <br>
 
