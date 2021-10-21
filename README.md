@@ -1,3 +1,3 @@
-## Om eid
+## Om kost
 
-En portal som används för att registrera organisations-ID hos Freja
+En portal som används för kostbeställningar inom hemtjänsten i Åtvidabergs kommun

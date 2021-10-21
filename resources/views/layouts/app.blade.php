@@ -8,7 +8,7 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>Itsam tjänste-ID</title>
+    <title>Åtvidabergs kostbeställning</title>
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>
@@ -19,14 +19,15 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" media="all" href="{{asset('css/custom.css')}}">
+
 </head>
 <body>
     <div id="app">
         <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
             <div class="container">
                 <a class="navbar-brand" href="{{ url('/') }}">
-                    <img src="/images/Itsam.png">
-                    <img style="margin-left:50px" src="/images/Freja.png">
+                    <img src="/images/atv_logo.png">
                 </a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
                     <span class="navbar-toggler-icon"></span>
@@ -59,6 +60,9 @@
         </nav>
 
         <main class="py-4">
+
+            @include('inc.messages')
+
             @yield('content')
         </main>
     </div>
