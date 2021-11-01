@@ -10,9 +10,10 @@
 
                 <div class="card-body">
 
-                    <a href="#" class="btn btn-primary disabled">Lägg matbeställning</a><br><br>
-                    <a href="/menu" class="btn btn-primary">Redigera matsedel</a><br><br>
-                    <a href="/course" class="btn btn-primary">Redigera maträtter</a>
+                    <a href="/homecareorder" class="btn btn-primary {{$user->isKost||$user->isHemtj?'':'disabled'}}">Lägg matbeställning</a><br><br>
+                    <a href="/customer" class="btn btn-primary {{$user->isKost||$user->isHemtj?'':'disabled'}}">Hantera kunder</a><br><br>
+                    <a href="/menu" class="btn btn-primary {{$user->isKost?'':'disabled'}}">Redigera matsedel</a><br><br>
+                    <a href="/course" class="btn btn-primary {{$user->isKost?'':'disabled'}}">Redigera maträtter</a>
 
                 </div>
             </div>

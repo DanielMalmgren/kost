@@ -20,17 +20,6 @@ class HomeController extends Controller
         $this->middleware('authnodb');
     }
 
-    private function getUser(Request $request)
-    {
-        $user = session()->get('user');
-        if($user->isAdmin && $request->username !== null) {
-            return new User($request->username);
-        } else {
-            return session()->get('user');
-        }
-
-    }
-
     /**
      * Show the application dashboard.
      *
@@ -38,7 +27,7 @@ class HomeController extends Controller
      */
     public function index(Request $request)
     {
-        $user = $this->getUser($request);
+        $user = session()->get('user');
 
         $data = [
             'user' => $user,
@@ -51,29 +40,5 @@ class HomeController extends Controller
     {
         session()->flush();
         return view('logout');
-    }
-
-    public function orgid(Request $request)
-    {
-        $user = $this->getUser($request);
-
-        $reference = $this->addOrgId($user);
-
-        if($reference === null) {
-            return view('orgid/failure');
-        }
-
-        $data = [
-            'user' => $user,
-            'reference' => $reference,
-        ];
-
-        return view('orgid/success')->with($data);
-    }
-
-    public function orgidResult(Request $request) {
-        $user = $this->getUser($request);
-        $reference = $request->reference;
-        return $this->getOneResult($user, $reference);
     }
 }

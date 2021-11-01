@@ -15,17 +15,26 @@ use Illuminate\Support\Facades\Route;
 
 //Auth::routes();
 
-Route::get('/',                     'HomeController@index');
-Route::post('/',                    'HomeController@index');
-Route::get('logout',                'HomeController@logout');
+Route::get('/',                         'HomeController@index');
+Route::post('/',                        'HomeController@index');
+Route::get('logout',                    'HomeController@logout');
 
-Route::get('/menu',                 'MenuController@edit');
-Route::get('/menu/ajax/{week}',     'MenuController@ajax');
-Route::put('/menu',                 'MenuController@update');
+Route::get('/menu',                     'MenuController@edit');
+Route::get('/menu/ajax/{week}',         'MenuController@ajax');
+Route::put('/menu',                     'MenuController@update');
 
-Route::get('/course',               'CourseController@index');
-Route::get('/course/create',        'CourseController@create');
-Route::post('/course',              'CourseController@store');
-Route::get('/course/{course}/edit', 'CourseController@edit');
-Route::put('/course/{course}',      'CourseController@update');
-Route::delete('/course/{course}',   'CourseController@destroy');
+Route::get('/course',                   'CourseController@index');
+Route::get('/course/create',            'CourseController@create');
+Route::post('/course',                  'CourseController@store');
+Route::get('/course/{course}/edit',     'CourseController@edit');
+Route::put('/course/{course}',          'CourseController@update');
+Route::delete('/course/{course}',       'CourseController@destroy');
+
+Route::get('/homecareorder',            'HomeCareOrderController@edit');
+
+Route::get('/customer',                 'CustomerController@index');
+Route::get('/customer/create',          'CustomerController@create');
+Route::post('/customer',                'CustomerController@store');
+Route::get('/customer/{customer}/edit', 'CustomerController@edit');
+Route::put('/customer/{customer}',      'CustomerController@update');
+Route::delete('/customer/{customer}',   'CustomerController@destroy');
