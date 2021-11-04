@@ -40,7 +40,7 @@ class CustomerController extends Controller
         ],
         [
             'namn.required' => __('Du måste ange kundens namn!'),
-            'personnr.required' => __('Du måste kundens personnummer!'),
+            'personnr.required' => __('Du måste ange kundens personnummer!'),
             'personnr.numeric' => __('Du måste ange ett giltigt personnummer i rätt format!'),
             'personnr.between' => __('Du måste ange ett giltigt personnummer i rätt format!'),
         ]);
@@ -66,13 +66,9 @@ class CustomerController extends Controller
     {
         $this->validate($request, [
             'namn' => 'required',
-            'personnr' => 'required|numeric|between:190001010000,203012319999',
         ],
         [
             'namn.required' => __('Du måste ange kundens namn!'),
-            'personnr.required' => __('Du måste kundens personnummer!'),
-            'personnr.numeric' => __('Du måste ange ett giltigt personnummer i rätt format!'),
-            'personnr.between' => __('Du måste ange ett giltigt personnummer i rätt format!'),
         ]);
 
         if($request->specialkost == 'Annat') {
@@ -84,7 +80,6 @@ class CustomerController extends Controller
         }
 
         $customer->Namn = $request->namn;
-        $customer->Personnr = $request->personnr;
         $customer->grupp_id = $request->group;
         $customer->save();
 

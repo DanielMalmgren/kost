@@ -21,7 +21,7 @@
 
                         <div class="mb-5">
                             <label for="name">Personnummer</label>
-                            <input required name="personnr" class="form-control" value="{{old('personnr', $customer->Personnr)}}">
+                            <input disabled name="personnr" class="form-control" value="{{old('personnr', $customer->Personnr)}}">
                         </div>
 
                         <div class="mb-5">

@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Customer;
+use App\Models\Menu;
+use App\Models\HomeCareOrder;
 
 class HomeCareOrderController extends Controller
 {
@@ -11,19 +14,102 @@ class HomeCareOrderController extends Controller
         $this->middleware('authnodb');
     }
     
-    public function edit(Request $request)
+    public function create(Request $request)
     {
-        $current_week = date("W");
+        $prechosen_week = date("W", strtotime("2 week"));
 
         $weeks = [];
-        for ($i=-4; $i < 12; $i++) { 
+        for ($i=0; $i < 12; $i++) { 
             $weeks[] = date("W", strtotime($i." week"));
         }
 
         $data = [
             'weeks' => $weeks,
-            'current_week' => $current_week,
+            'prechosen_week' => $prechosen_week,
+            'customers' => Customer::orderBy('Namn')->get(),
         ];
-        return view('homecareorder.edit')->with($data);
+        return view('homecareorder.create')->with($data);
+    }
+
+    public function store(Request $request)
+    {
+        $customer = Customer::where('Personnr', $request->customer)->first();
+
+        if(isset($request->type)) {
+            $type = $request->type;
+        } else {
+            $type = '';
+        }
+
+        HomeCareOrder::updateOrCreate(
+            [
+                'Vecka' => $request->week, 
+                'Kund_personnr' => $customer->Personnr, 
+                'Specialkost' => $type
+            ],
+            [
+                'Kund_namn' => $customer->Namn, 
+                'Grupp' => $customer->grupp_id, 
+                'Bestdatum' => date("Y-m-d"), 
+                'Bestallare' => 'ITSAM\\'.session()->get('user')->username,
+                'Alt1' => $request->amount[1],
+                'Alt2' => $request->amount[2],
+                'Alt3' => $request->amount[3],
+                'Alt4' => $request->amount[4],
+                'Alt5' => $request->amount[5],
+                'Alt6' => $request->amount[6],
+                'Alt7' => $request->amount[7],
+                'Alt8' => $request->amount[8],
+            ]
+        );
+
+        return redirect('/homecareorder/create')->with('success', 'Beställningen har sparats');
+    }
+
+    public function ajax(Request $request)
+    {
+        if($request->type == 'Vegetarisk') {
+            $type = 'Vegetarisk';
+            $type1 = 'Vegetarisk';
+        } else {
+            $type = '';
+            $type1 = 'Normal';
+        }
+
+        $chosen_courses = [];
+        for ($i=1; $i <= 8; $i++) {
+            $this_course = Menu::where('Vecka', $request->week)
+                                ->where('Alternativ', $i)
+                                ->where('Specialkost', $type1)
+                                ->first();
+            if(isset($this_course)) {
+                $chosen_courses[$i] = $this_course->Namn;
+            } else {
+                $chosen_courses[$i] = 'Matsedel inte lagd än';
+            }            
+        }
+
+        $ordered_amount = [];
+        for ($i=1; $i <= 8; $i++) {
+            $amount = HomeCareOrder::where('Vecka', $request->week)
+                                ->where('Kund_personnr', $request->customer) //TODO: Jag kan tusan inte skicka personnummer här, måste fixa ett ID att använda istället
+                                ->where('Specialkost', $type)
+                                ->first();
+            if(isset($amount)) {
+                $ordered_amount[$i] = $amount["Alt".$i];
+            } else {
+                $ordered_amount[$i] = 0;
+            }
+        }
+
+
+        $data = [
+            'week' => $request->week,
+            'chosen_courses' => $chosen_courses,
+            'ordered_amount' => $ordered_amount,
+            'type' => $type,
+            'customer' => $request->customer,
+        ];
+        return view('homecareorder.ajax')->with($data);
     }
 }

@@ -5,14 +5,11 @@
 <script type="text/javascript">
 
     function updateOrder() {
+        var customer = $('#customer').val();
         var week = $('#week').val();
         var type = $('#type').val();
-        $("#courses").load("/menu/ajax/" + week + "?type=" + type);
+        $("#courses").load("/homecareorder/ajax?type=" + type + "&customer=" + customer + "&week=" + week);
     }
-
-    /*$(function() {
-        updateOrder();
-    });*/
 </script>
 
 <div class="container">
@@ -20,16 +17,25 @@
         <div class="col-md-8">
 
             <div class="card">
-                <div class="card-header">Denna sida är under uppbyggnad!</div>
+                <div class="card-header">Lägg matbeställningen nedan!</div>
 
                 <div class="card-body">
 
-                    {{--<div class="form-row">
+                    <div class="form-row">
                         <div class="col">
                             <label for="week">Kund</label>
-                            <select class="custom-select d-block w-200" id="customer" name="customer" onchange="updateOrder()">
+                            <select class="custom-select d-block w-100" id="customer" name="customer" required="" onchange="updateOrder()">
+                                <option selected disabled>Välj kund</option>
+                                @foreach($customers as $customer)
+                                    <option value="{{$customer->Personnr}}">{{$customer->Namn}}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="col" style="max-width:150px">
+                            <label for="week">Vecka</label>
+                            <select class="custom-select d-block w-200" id="week" name="week" onchange="updateOrder()">
                                 @foreach($weeks as $week)
-                                    <option {{$week==$current_week?"selected":""}} value="{{$week}}">{{$week}}</option>
+                                    <option {{$week==$prechosen_week?"selected":""}} value="{{$week}}">{{$week}}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -40,7 +46,7 @@
                                 <option value="Vegetarisk">Vegetarisk</option>
                             </select>
                         </div>
-                    </div>--}}
+                    </div>
 
                     <br>
 

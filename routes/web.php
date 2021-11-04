@@ -30,7 +30,9 @@ Route::get('/course/{course}/edit',     'CourseController@edit');
 Route::put('/course/{course}',          'CourseController@update');
 Route::delete('/course/{course}',       'CourseController@destroy');
 
-Route::get('/homecareorder',            'HomeCareOrderController@edit');
+Route::get('/homecareorder/create',     'HomeCareOrderController@create');
+Route::get('/homecareorder/ajax',       'HomeCareOrderController@ajax');
+Route::post('/homecareorder',           'HomeCareOrderController@store');
 
 Route::get('/customer',                 'CustomerController@index');
 Route::get('/customer/create',          'CustomerController@create');
