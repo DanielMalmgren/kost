@@ -22,6 +22,7 @@ Route::get('logout',                    'HomeController@logout');
 Route::get('/menu',                     'MenuController@edit');
 Route::get('/menu/ajax/{week}',         'MenuController@ajax');
 Route::put('/menu',                     'MenuController@update');
+Route::get('/menu/pdf/{week}',          'MenuController@pdf');
 
 Route::get('/course',                   'CourseController@index');
 Route::get('/course/create',            'CourseController@create');

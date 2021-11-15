@@ -12,6 +12,7 @@
         if(customer != null) {
             $("#courses").load("/homecareorder/ajax?type=" + type + "&customer=" + customer + "&week=" + week);
         }
+        $('#pdfbutton').html('<a href="/menu/pdf/' + week + '" class="btn btn-primary btn-sm">Skriv ut beställningssedel</a>');
     }
 </script>
 
@@ -20,7 +21,12 @@
         <div class="col-md-8">
 
             <div class="card">
-                <div class="card-header">Lägg matbeställningen nedan!</div>
+                <div class="card-header">
+                    Lägg matbeställningen nedan!
+                    <div style="float: right;" id="pdfbutton">
+                        <a href="/menu/pdf/{{$prechosen_week}}" class="btn btn-primary btn-sm">Skriv ut beställningssedel</a>
+                    </div>
+                </div>
 
                 <div class="card-body">
 

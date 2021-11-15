@@ -85,4 +85,35 @@ class MenuController extends Controller
 
         return redirect('/')->with('success', 'Matsedeln har sparats');
     }
+    
+    public function pdf(int $week) {
+
+        $standard_courses = [];
+        for ($i=1; $i <= 8; $i++) {
+            $standard_courses[$i] = Menu::where('Vecka', $week)
+                                ->where('Alternativ', $i)
+                                ->where('Specialkost', 'Normal')
+                                ->first();
+        }
+
+        $vegetarian_courses = [];
+        for ($i=1; $i <= 8; $i++) {
+            $vegetarian_courses[$i] = Menu::where('Vecka', $week)
+                                ->where('Alternativ', $i)
+                                ->where('Specialkost', 'Vegetarisk')
+                                ->first();
+        }
+
+        $data = [
+            'week' => $week,
+            'standard_courses' => $standard_courses,
+            'vegetarian_courses' => $vegetarian_courses,
+        ];
+
+        //return view('menu.pdf')->with($data);
+
+        $pdf = \PDF::loadView('menu.pdf', $data);
+
+        return $pdf->download('Matsedel vecka '.$week.'.pdf');
+    }
 }
