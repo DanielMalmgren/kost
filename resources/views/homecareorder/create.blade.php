@@ -8,7 +8,10 @@
         var customer = $('#customer').val();
         var week = $('#week').val();
         var type = $('#type').val();
-        $("#courses").load("/homecareorder/ajax?type=" + type + "&customer=" + customer + "&week=" + week);
+        console.log(customer);
+        if(customer != null) {
+            $("#courses").load("/homecareorder/ajax?type=" + type + "&customer=" + customer + "&week=" + week);
+        }
     }
 </script>
 
@@ -27,7 +30,7 @@
                             <select class="custom-select d-block w-100" id="customer" name="customer" required="" onchange="updateOrder()">
                                 <option selected disabled>Välj kund</option>
                                 @foreach($customers as $customer)
-                                    <option value="{{$customer->Personnr}}">{{$customer->Namn}}</option>
+                                    <option value="{{$customer->id}}">{{$customer->Namn}}</option>
                                 @endforeach
                             </select>
                         </div>

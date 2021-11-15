@@ -33,7 +33,7 @@ class HomeCareOrderController extends Controller
 
     public function store(Request $request)
     {
-        $customer = Customer::where('Personnr', $request->customer)->first();
+        $customer = Customer::find($request->customer);
 
         if(isset($request->type)) {
             $type = $request->type;
@@ -44,11 +44,12 @@ class HomeCareOrderController extends Controller
         HomeCareOrder::updateOrCreate(
             [
                 'Vecka' => $request->week, 
-                'Kund_personnr' => $customer->Personnr, 
-                'Specialkost' => $type
+                'Specialkost' => $type,
+                'Kund_id' => $request->customer,
             ],
             [
                 'Kund_namn' => $customer->Namn, 
+                'Kund_personnr' => $customer->Personnr, 
                 'Grupp' => $customer->grupp_id, 
                 'Bestdatum' => date("Y-m-d"), 
                 'Bestallare' => 'ITSAM\\'.session()->get('user')->username,
@@ -92,7 +93,7 @@ class HomeCareOrderController extends Controller
         $ordered_amount = [];
         for ($i=1; $i <= 8; $i++) {
             $amount = HomeCareOrder::where('Vecka', $request->week)
-                                ->where('Kund_personnr', $request->customer) //TODO: Jag kan tusan inte skicka personnummer här, måste fixa ett ID att använda istället
+                                ->where('Kund_id', $request->customer)
                                 ->where('Specialkost', $type)
                                 ->first();
             if(isset($amount)) {
@@ -102,6 +103,14 @@ class HomeCareOrderController extends Controller
             }
         }
 
+        $user = session()->get('user');
+        if($user->isKost) {
+            $too_late = false;
+            $almost_too_late = false;
+        } else {
+            $too_late = $request->week < date("W", strtotime("2 week"));
+            $almost_too_late = $request->week == date("W", strtotime("2 week")) && date("N") >= 4;
+        }
 
         $data = [
             'week' => $request->week,
@@ -109,6 +118,8 @@ class HomeCareOrderController extends Controller
             'ordered_amount' => $ordered_amount,
             'type' => $type,
             'customer' => $request->customer,
+            'too_late' => $too_late,
+            'almost_too_late' => $almost_too_late,
         ];
         return view('homecareorder.ajax')->with($data);
     }

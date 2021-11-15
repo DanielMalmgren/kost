@@ -1,7 +1,20 @@
+<script type="text/javascript">
+
+    {{--function breakdate() {
+        var week = $('#week').val();
+        console.log(week);
+        if(week > {{$break_week}}) {
+            console.log("Efter bryt");
+        } else {
+            console.log("Före bryt");
+        }
+    }--}}
+</script>
+
 <form method="post" name="question" action="{{action('HomeCareOrderController@store')}}" accept-charset="UTF-8">
     @csrf
 
-    <input type="hidden" name="week" value="{{$week}}">
+    <input type="hidden" id="week" name="week" value="{{$week}}">
     <input type="hidden" name="type" value="{{$type}}">
     <input type="hidden" name="customer" value="{{$customer}}">
 
@@ -17,5 +30,13 @@
 
     <br>
 
-    <button class="btn btn-primary btn-lg btn-block" id="submit" name="submit" type="submit">Spara</button>
+    @if($almost_too_late)
+        <div style="border-color:red;border-width:5px;border-style:solid;border-radius:0.3rem;padding-left:10px;font-size:1.5rem">
+            Denna beställning inkommer efter brytdatum.<br>
+            Det innebär att du själv måste kontakta köket och meddela dem om avvikelse!
+        </div>
+        <br>
+    @endif
+
+    <button {{$too_late?"disabled":""}} class="btn btn-primary btn-lg btn-block" id="submit" name="submit" type="submit">Spara</button>
 </form>
