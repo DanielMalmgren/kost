@@ -1,16 +1,3 @@
-<script type="text/javascript">
-
-    {{--function breakdate() {
-        var week = $('#week').val();
-        console.log(week);
-        if(week > {{$break_week}}) {
-            console.log("Efter bryt");
-        } else {
-            console.log("Före bryt");
-        }
-    }--}}
-</script>
-
 <form method="post" name="question" action="{{action('HomeCareOrderController@store')}}" accept-charset="UTF-8">
     @csrf
 

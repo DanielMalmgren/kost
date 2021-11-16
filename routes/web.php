@@ -31,6 +31,8 @@ Route::get('/course/{course}/edit',     'CourseController@edit');
 Route::put('/course/{course}',          'CourseController@update');
 Route::delete('/course/{course}',       'CourseController@destroy');
 
+Route::get('/homecareorder',            'HomeCareOrderController@index');
+Route::get('/homecareorder/listajax',   'HomeCareOrderController@listajax');
 Route::get('/homecareorder/create',     'HomeCareOrderController@create');
 Route::get('/homecareorder/ajax',       'HomeCareOrderController@ajax');
 Route::post('/homecareorder',           'HomeCareOrderController@store');

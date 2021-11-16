@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Customer;
+use App\Models\Group;
 use App\Models\Menu;
 use App\Models\HomeCareOrder;
 
@@ -13,7 +14,21 @@ class HomeCareOrderController extends Controller
     {
         $this->middleware('authnodb');
     }
-    
+
+    public function index(Request $request)
+    {
+        $weeks = [];
+        for ($i=0; $i < 6; $i++) { 
+            $weeks[] = date("W", strtotime($i." week"));
+        }
+
+        $data = [
+            'weeks' => $weeks,
+            'groups' => Group::orderBy('id')->get(),
+        ];
+        return view('homecareorder.index')->with($data);
+    }
+
     public function create(Request $request)
     {
         $prechosen_week = date("W", strtotime("2 week"));
@@ -65,6 +80,27 @@ class HomeCareOrderController extends Controller
         );
 
         return redirect('/homecareorder/create')->with('success', 'Beställningen har sparats');
+    }
+
+    public function listajax(Request $request)
+    {
+        $orders = HomeCareOrder::where('Grupp', $request->group)
+                ->where('Vecka', $request->week)
+                ->orderBy('Kund_namn')
+                ->get();
+
+        $ordered_amount = [];
+        for($i=1; $i <= 8; $i++) { 
+            $ordered_amount[$i] = HomeCareOrder::where('Vecka', $request->week)
+                ->where('Grupp', $request->group)
+                ->sum('Alt'.$i);
+        }
+
+        $data = [
+            'orders' => $orders,
+            'ordered_amount' => $ordered_amount,
+        ];
+        return view('homecareorder.listajax')->with($data);
     }
 
     public function ajax(Request $request)
