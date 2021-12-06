@@ -13,7 +13,6 @@ class CustomerController extends Controller
         $this->middleware('authnodb');
     }
 
-
     public function index(Request $request)
     {
         $data = [
@@ -26,7 +25,7 @@ class CustomerController extends Controller
     public function create()
     {
         $data = [
-            'groups' => $groups = Group::all(),
+            'groups' => Group::all(),
         ];
 
         return view('customer.create')->with($data);

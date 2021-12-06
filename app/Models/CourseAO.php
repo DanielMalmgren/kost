@@ -5,9 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Recipe extends Model
+class CourseAO extends Model
 {
     use HasFactory;
 
-    protected $table = 'Ingredienser';
+    public $timestamps = false;
+
+    protected $table = 'Ingredienser_AO';
 }

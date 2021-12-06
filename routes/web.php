@@ -43,3 +43,21 @@ Route::post('/customer',                'CustomerController@store');
 Route::get('/customer/{customer}/edit', 'CustomerController@edit');
 Route::put('/customer/{customer}',      'CustomerController@update');
 Route::delete('/customer/{customer}',   'CustomerController@destroy');
+
+Route::get('/menu_ao',                  'MenuAOController@edit');
+Route::get('/menu_ao/ajax/{week}',      'MenuAOController@ajax');
+Route::put('/menu_ao',                  'MenuAOController@update');
+
+Route::get('/course_ao',                'CourseAOController@index');
+Route::get('/course_ao/create',         'CourseAOController@create');
+Route::post('/course_ao',               'CourseAOController@store');
+Route::get('/course_ao/{course}/edit',  'CourseAOController@edit');
+Route::put('/course_ao/{course}',       'CourseAOController@update');
+Route::delete('/course_ao/{course}',    'CourseAOController@destroy');
+
+Route::get('/department_ao',                    'DepartmentAOController@index');
+Route::get('/department_ao/create',             'DepartmentAOController@create');
+Route::post('/department_ao',                   'DepartmentAOController@store');
+Route::get('/department_ao/{department}/edit',  'DepartmentAOController@edit');
+Route::put('/department_ao/{department}',       'DepartmentAOController@update');
+Route::delete('/department_ao/{department}',    'DepartmentAOController@destroy');

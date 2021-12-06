@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Course;
 use App\Models\Menu;
-use App\Models\Recipe;
 
 class MenuController extends Controller
 {
@@ -67,13 +66,13 @@ class MenuController extends Controller
 
         for ($i=1; $i <= 8; $i++) {
             if(isset($request->alt[$i])) {
-                $recipe = Recipe::find($request->alt[$i]);
+                $course = Course::find($request->alt[$i]);
 
                 $menu = Menu::updateOrCreate(
                     ['Vecka' => $request->week,
                     'Alternativ' => $i,
                     'Specialkost' => $request->type],
-                    ['Namn' => $recipe->Namn,
+                    ['Namn' => $course->Namn,
                     'RegAv' => 'ITSAM\\'.session()->get('user')->username,
                     'Ingrediens_Id' => $request->alt[$i],]
                 );

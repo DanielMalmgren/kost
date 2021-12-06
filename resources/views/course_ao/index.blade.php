@@ -12,13 +12,13 @@
                     <select class="custom-select d-block w-100" id="course" name="course" required="">
                         <option selected disabled>Välj maträtt</option>
                         @foreach($courses as $course)
-                            <option value="{{$course->id}}">{{$course->Namn}}</option>
+                            <option value="{{$course->id}}">{{$course->namn}}</option>
                         @endforeach
                     </select>
 
                     <br>
 
-                    <a href="/course/create" class="btn btn-primary">Lägg till ny maträtt</a>
+                    <a href="/course_ao/create" class="btn btn-primary">Lägg till ny maträtt</a>
                 </div>
             </div>
         </div>
@@ -28,7 +28,7 @@
 <script type="text/javascript">
     $('#course').on('change', function (e) {
         var course_id = $('#course').val();
-        window.location='/course/' + course_id + '/edit';
+        window.location='/course_ao/' + course_id + '/edit';
     });
 </script>
 

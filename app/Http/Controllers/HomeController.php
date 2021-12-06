@@ -4,13 +4,10 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
-use App\Traits\FrejaAPI;
 use App\Models\HomeCareOrder;
 
 class HomeController extends Controller
 {
-    use FrejaAPI;
-
     /**
      * Create a new controller instance.
      *
