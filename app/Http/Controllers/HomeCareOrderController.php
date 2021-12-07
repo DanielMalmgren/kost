@@ -59,7 +59,7 @@ class HomeCareOrderController extends Controller
         HomeCareOrder::updateOrCreate(
             [
                 'Vecka' => $request->week, 
-                'Specialkost' => $type,
+                'Specialkost' => $type.' '.$customer->Specialkost,
                 'Kund_id' => $request->customer,
             ],
             [
