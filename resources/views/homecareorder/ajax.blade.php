@@ -2,17 +2,51 @@
     @csrf
 
     <input type="hidden" id="week" name="week" value="{{$week}}">
-    <input type="hidden" name="type" value="{{$type}}">
-    <input type="hidden" name="customer" value="{{$customer}}">
+    <input type="hidden" name="menu" value="{{$menu}}">
+    <input type="hidden" name="specialkost" value="{{$specialkost}}">
+    <input type="hidden" name="customer_id" value="{{$customer->id}}">
+
+    Grupp: {{$customer->group->Namn}} 
+
+    @if($specialkost != '')
+        Specialkost: {{$specialkost}}
+    @endif
+
+    <br><br>
 
     @for ($i = 1; $i <= 8; $i++)
-        <label for="alt[{{$i}}]">Alternativ {{$i}} ({{$chosen_courses[$i]}})</label>
+        @if(isset($chosen_courses[$i]))
+            <label for="alt[{{$i}}]" data-toggle="modal" data-target="#ingredients{{$i}}">Alternativ {{$i}} ({{$chosen_courses[$i]->Namn}})</label>
+
+            <div class="modal fade" id="ingredients{{$i}}" tabindex="-1" role="dialog" aria-labelledby="ingredients{{$i}}Label" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="ingredients{{$i}}Label">{{$chosen_courses[$i]->Namn}}</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        {{$chosen_courses[$i]->course->Ingredienser}}
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Stäng</button>
+                    </div>
+                    </div>
+                </div>
+            </div>
+        @else
+            <label for="alt[{{$i}}]">Alternativ {{$i}} (Matsedel inte lagd än)</label>
+        @endif
+
         <select class="custom-select d-block w-100" name="amount[{{$i}}]" required="">
             @for ($j = 0; $j <= 9; $j++)
                 <option {{$ordered_amount[$i]==$j?"selected":""}}>{{$j}}</option>
             @endfor
         </select>
         <br>
+
     @endfor
 
     <br>

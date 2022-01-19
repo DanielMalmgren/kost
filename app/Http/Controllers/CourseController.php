@@ -67,6 +67,10 @@ class CourseController extends Controller
         $course->Namn = $request->name;
         $course->Ingredienser = $request->ingredients;
         $course->Specialkost = $request->vego?'Vegetarisk':'Normal';
+        $course->komponent1 = $request->komp1;
+        $course->komponent2 = $request->komp2;
+        $course->komponent3 = $request->komp3;
+        $course->komponent4 = $request->komp4;
         $course->RegDatum = date("Y-m-d");
         $course->RegAv = 'ITSAM\\'.session()->get('user')->username;
         $course->save();

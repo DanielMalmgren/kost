@@ -48,19 +48,13 @@ class HomeCareOrderController extends Controller
 
     public function store(Request $request)
     {
-        $customer = Customer::find($request->customer);
-
-        if(isset($request->type)) {
-            $type = $request->type;
-        } else {
-            $type = '';
-        }
+        $customer = Customer::find($request->customer_id);
 
         HomeCareOrder::updateOrCreate(
             [
-                'Vecka' => $request->week, 
-                'Specialkost' => $type.' '.$customer->Specialkost,
-                'Kund_id' => $request->customer,
+                'Vecka' => $request->week,
+                'Specialkost' => $request->specialkost,
+                'Kund_id' => $customer->id,
             ],
             [
                 'Kund_namn' => $customer->Namn, 
@@ -105,32 +99,31 @@ class HomeCareOrderController extends Controller
 
     public function ajax(Request $request)
     {
+        $customer = Customer::find($request->customer);
+
         if($request->type == 'Vegetarisk') {
-            $type = 'Vegetarisk';
-            $type1 = 'Vegetarisk';
+            $menu = 'Vegetarisk';
+            $vegorderchoser = 'like';
+            $specialkost = 'Vegetarisk'.' '.$customer->Specialkost;
         } else {
-            $type = '';
-            $type1 = 'Normal';
+            $menu = 'Normal';
+            $vegorderchoser = 'not like';
+            $specialkost = $customer->Specialkost;
         }
 
         $chosen_courses = [];
         for ($i=1; $i <= 8; $i++) {
-            $this_course = Menu::where('Vecka', $request->week)
+            $chosen_courses[$i] = Menu::where('Vecka', $request->week)
                                 ->where('Alternativ', $i)
-                                ->where('Specialkost', $type1)
+                                ->where('Specialkost', $menu)
                                 ->first();
-            if(isset($this_course)) {
-                $chosen_courses[$i] = $this_course->Namn;
-            } else {
-                $chosen_courses[$i] = 'Matsedel inte lagd än';
-            }            
         }
 
         $ordered_amount = [];
         for ($i=1; $i <= 8; $i++) {
             $amount = HomeCareOrder::where('Vecka', $request->week)
                                 ->where('Kund_id', $request->customer)
-                                ->where('Specialkost', $type)
+                                ->where('Specialkost', $vegorderchoser, 'Vegetaris%')
                                 ->first();
             if(isset($amount)) {
                 $ordered_amount[$i] = $amount["Alt".$i];
@@ -152,8 +145,9 @@ class HomeCareOrderController extends Controller
             'week' => $request->week,
             'chosen_courses' => $chosen_courses,
             'ordered_amount' => $ordered_amount,
-            'type' => $type,
-            'customer' => $request->customer,
+            'menu' => $menu,
+            'specialkost' => $specialkost,
+            'customer' => $customer,
             'too_late' => $too_late,
             'almost_too_late' => $almost_too_late,
         ];

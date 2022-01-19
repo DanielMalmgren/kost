@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\CourseAO;
+use App\Models\Course;
 use App\Models\MenuAO;
 
 class MenuAOController extends Controller
@@ -35,7 +35,7 @@ class MenuAOController extends Controller
         setlocale(LC_ALL, 'sv_SE');
         \App::setLocale('sv_SE');
 
-        $courses = CourseAO::orderBy('Namn')->get();
+        $courses = Course::orderBy('Namn')->whereNotNull('komponent1')->get();
 
         $current_week = date("W");
         if($request->week >= $current_week) {
@@ -91,6 +91,11 @@ class MenuAOController extends Controller
             } else {
                 $middag = -1;
             }
+            if(isset($request->dessert[$i])) {
+                $dessert = $request->dessert[$i];
+            } else {
+                $dessert = -1;
+            }
 
             $menu = MenuAO::updateOrCreate(
                 [
@@ -100,6 +105,7 @@ class MenuAOController extends Controller
                     'Lunch1' => $lunch1,
                     'Lunch2' => $lunch2,
                     'Middag' => $middag,
+                    'Dessert' => $dessert,
                     'RegAv' => 'ITSAM\\'.session()->get('user')->username,
                 ]
             );

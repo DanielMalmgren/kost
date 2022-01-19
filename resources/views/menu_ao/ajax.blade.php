@@ -2,12 +2,12 @@
     @method('put')
     @csrf
 
-    @for ($i = 1; $i <= 7 ; $i++)
+    @for ($weekday = 1; $weekday <= 7 ; $weekday++)
 
-        <input type="hidden" name="date[{{$i}}]" value="{{$dates[$i]->format('Y-m-d')}}">
+        <input type="hidden" name="date[{{$weekday}}]" value="{{$dates[$weekday]->format('Y-m-d')}}">
 
         <div class="card">
-            <div class="card-header">{{$weekdays[$i]}} ({{$dates[$i]->format('Y-m-d')}})</div>
+            <div class="card-header">{{$weekdays[$weekday]}} ({{$dates[$weekday]->format('Y-m-d')}})</div>
 
             <div class="card-body">
 
@@ -16,12 +16,12 @@
                         <label>Lunch 1</label>
                     </div>
                     <div class="col-7">
-                        <select class="custom-select d-block w-100" name="lunch1[{{$i}}]" required="">
-                            @if(!isset($chosen_courses[$i]) || $chosen_courses[$i]->Lunch1==-1)
+                        <select class="custom-select d-block w-100" name="lunch1[{{$weekday}}]" required="">
+                            @if(!isset($chosen_courses[$weekday]) || $chosen_courses[$weekday]->Lunch1==-1)
                                 <option selected disabled>Välj maträtt</option>
                             @endif
                             @foreach($courses as $course)
-                                <option {{isset($chosen_courses[$i])&&$chosen_courses[$i]->Lunch1==$course->id?'selected':''}} value="{{$course->id}}">{{$course->namn}}</option>
+                                <option {{isset($chosen_courses[$weekday])&&$chosen_courses[$weekday]->Lunch1==$course->id?'selected':''}} value="{{$course->id}}">{{$course->Namn}}</option>
                             @endforeach
                         </select>
                     </div>
@@ -32,12 +32,12 @@
                         <label>Lunch 2</label>
                     </div>
                     <div class="col-7">
-                        <select class="custom-select d-block w-100" name="lunch2[{{$i}}]" required="">
-                            @if(!isset($chosen_courses[$i]) || $chosen_courses[$i]->Lunch2==-1)
+                        <select class="custom-select d-block w-100" name="lunch2[{{$weekday}}]" required="">
+                            @if(!isset($chosen_courses[$weekday]) || $chosen_courses[$weekday]->Lunch2==-1)
                                 <option selected disabled>Välj maträtt</option>
                             @endif
                             @foreach($courses as $course)
-                                <option {{isset($chosen_courses[$i])&&$chosen_courses[$i]->Lunch2==$course->id?'selected':''}} value="{{$course->id}}">{{$course->namn}}</option>
+                                <option {{isset($chosen_courses[$weekday])&&$chosen_courses[$weekday]->Lunch2==$course->id?'selected':''}} value="{{$course->id}}">{{$course->Namn}}</option>
                             @endforeach
                         </select>
                     </div>
@@ -48,16 +48,34 @@
                         <label>Middag</label>
                     </div>
                     <div class="col-7">
-                        <select class="custom-select d-block w-100" name="middag[{{$i}}]" required="">
-                            @if(!isset($chosen_courses[$i]) || $chosen_courses[$i]->Middag==-1)
+                        <select class="custom-select d-block w-100" name="middag[{{$weekday}}]" required="">
+                            @if(!isset($chosen_courses[$weekday]) || $chosen_courses[$weekday]->Middag==-1)
                                 <option selected disabled>Välj maträtt</option>
                             @endif
                             @foreach($courses as $course)
-                                <option {{isset($chosen_courses[$i])&&$chosen_courses[$i]->Middag==$course->id?'selected':''}} value="{{$course->id}}">{{$course->namn}}</option>
+                                <option {{isset($chosen_courses[$weekday])&&$chosen_courses[$weekday]->Middag==$course->id?'selected':''}} value="{{$course->id}}">{{$course->Namn}}</option>
                             @endforeach
                         </select>
                     </div>
                 </div>
+
+                @if($weekday==4 || $weekday==6 || $weekday==7)
+                    <div class="form-row">
+                        <div class="col-2">
+                            <label>Dessert</label>
+                        </div>
+                        <div class="col-7">
+                            <select class="custom-select d-block w-100" name="dessert[{{$weekday}}]" required="">
+                                @if(!isset($chosen_courses[$weekday]) || $chosen_courses[$weekday]->Dessert==-1)
+                                    <option selected disabled>Välj dessert</option>
+                                @endif
+                                @foreach($courses as $course)
+                                    <option {{isset($chosen_courses[$weekday])&&$chosen_courses[$weekday]->Dessert==$course->id?'selected':''}} value="{{$course->id}}">{{$course->Namn}}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+                @endif
 
             </div>
         </div>

@@ -33,7 +33,6 @@
             </div>
         </div>
 
-
     </div>
 
     <br>
@@ -46,10 +45,10 @@
 
                 <div class="card-body">
 
-                    <a href="/homecareorder/create" class="btn btn-primary disabled {{$user->isKost||$user->isHemtj?'':'disabled'}}">Lägg matbeställning</a>
+                    <a href="/order_ao/create" class="btn btn-primary {{$user->isKost||$user->isHemtj?'':'disabled'}}">Lägg matbeställning</a>
                     <a href="/department_ao" class="btn btn-primary {{$user->isHemtj?'':'disabled'}}">Hantera avdelningar</a><br><br>
                     <a href="/menu_ao" class="btn btn-primary {{$user->isKost?'':'disabled'}}">Redigera matsedel</a>
-                    <a href="/course_ao" class="btn btn-primary {{$user->isKost?'':'disabled'}}">Redigera maträtter</a>
+                    <a href="/course" class="btn btn-primary {{$user->isKost?'':'disabled'}}">Redigera maträtter</a>
 
                 </div>
             </div>

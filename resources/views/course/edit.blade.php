@@ -33,7 +33,43 @@
                             <textarea rows=5 name="ingredients" class="form-control">{{$course->Ingredienser}}</textarea>
                         </div>
 
+                        <label for="komp1">Ris/potatis/makaroner</label>
+                        <select class="custom-select d-block w-100" name="komp1" required="">
+                            <option {{$course->komponent1=="Ingenting"?"selected":""}}>Ingenting</option>
+                            <option {{$course->komponent1=="Ris"?"selected":""}}>Ris</option>
+                            <option {{$course->komponent1=="Potatis"?"selected":""}}>Potatis</option>
+                            <option {{$course->komponent1=="Makaroner"?"selected":""}}>Makaroner</option>
+                        </select>
+
                         <br>
+
+                        <label for="komp2">Kött/fisk</label>
+                        <select class="custom-select d-block w-100" name="komp2" required="">
+                            <option {{$course->komponent2=="Ingenting"?"selected":""}}>Ingenting</option>
+                            <option {{$course->komponent2=="Kött"?"selected":""}}>Kött</option>
+                            <option {{$course->komponent2=="Fisk"?"selected":""}}>Fisk</option>
+                            <option {{$course->komponent2=="Soppa"?"selected":""}}>Soppa</option>
+                        </select>
+
+                        <br>
+
+                        <label for="komp3">Sås</label>
+                        <select class="custom-select d-block w-100" name="komp3" required="">
+                            <option {{$course->komponent3=="Ingenting"?"selected":""}}>Ingenting</option>
+                            <option {{$course->komponent3=="Varm sås"?"selected":""}}>Varm sås</option>
+                            <option {{$course->komponent3=="Kall sås"?"selected":""}}>Kall sås</option>
+                        </select>
+
+                        <br>
+
+                        <label for="komp4">Grönsaker</label>
+                        <select class="custom-select d-block w-100" name="komp4" required="">
+                            <option {{$course->komponent4=="Ingenting"?"selected":""}}>Ingenting</option>
+                            <option {{$course->komponent4=="Frukt"?"selected":""}}>Frukt</option>
+                            <option {{$course->komponent4=="Grönsaker"?"selected":""}}>Grönsaker</option>
+                        </select>
+
+                        <br><br>
 
                         <div class="form-row">
                             <div class="col-9">
