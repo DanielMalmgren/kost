@@ -24,16 +24,22 @@
                         </div>
 
                         <label>Specialkostbehov</label>
-                        @foreach($special_diets as $special_diet)
-                            <div class="form-row">
-                                <div class="col-4">
-                                    <label>{{$special_diet->Namn}}</label>
-                                </div>
-                                <div class="col-2">
-                                    <input type="number" min="0" name="special_diets[{{$special_diet->id}}]" class="form-control" value="0">
-                                </div>
+                        <div class="form-row">
+                            <div class="col-5">
+                                <input name="new_special_diet[1][name]" class="form-control">
                             </div>
-                        @endforeach
+                            <div class="col-2">
+                                <input type="number" min="0" name="new_special_diet[1][amount]" class="form-control" value="0">
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="col-5">
+                                <input name="new_special_diet[2][name]" class="form-control">
+                            </div>
+                            <div class="col-2">
+                                <input type="number" min="0" name="new_special_diet[2][amount]" class="form-control" value="0">
+                            </div>
+                        </div>
 
                         <br>
 

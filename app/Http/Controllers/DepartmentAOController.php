@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\DepartmentAO;
-use App\Models\SpecialDietAO;
 use App\Models\SpecialDietNeedAO;
 
 class DepartmentAOController extends Controller
@@ -26,7 +25,6 @@ class DepartmentAOController extends Controller
     public function create()
     {
         $data = [
-            'special_diets' => SpecialDietAO::all(),
         ];
 
         return view('department_ao.create')->with($data);
@@ -57,7 +55,6 @@ class DepartmentAOController extends Controller
     {
         $data = [
             'department' => $department,
-            'special_diets' => SpecialDietAO::orderBy('Namn')->get(),
             'special_diet_needs' => $department->special_diet_needs,
         ];
         return view('department_ao.edit')->with($data);
@@ -80,22 +77,23 @@ class DepartmentAOController extends Controller
         $department->Boende = $request->boende;
         $department->save();
 
-        foreach($request->special_diets as $key => $value) {
-            if($value==0) {  //TODO: FUNKAR INTE!
-                $need = $department->special_diet_needs->where('Specialkost_AO_id', $key)->first();
-                if($need != null) {
-                    $need->delete();
-                }
+        foreach($request->special_diet as $id => $value) {
+            $special_diet_need = SpeciaLDietNeedAO::find($id);
+            if($value['name'] == '' || $value['amount'] == 0) {
+                $special_diet_need->delete();
             } else {
-                SpeciaLDietNeedAO::updateOrCreate(
-                    [
-                        'Avdelningar_AO_id' => $department->id,
-                        'Specialkost_AO_id' => $key,
-                    ],
-                    [
-                        'Antal' => $value,
-                    ]
-                );
+                $special_diet_need->Specialkost = $value['name'];
+                $special_diet_need->Antal = $value['amount'];
+                $special_diet_need->save();
+            }
+        }
+        foreach($request->new_special_diet as $id => $value) {
+            if($value['name'] != '' && $value['amount'] != 0) {
+                $special_diet_need = new SpeciaLDietNeedAO();
+                $special_diet_need->Avdelningar_AO_id = $department->id;
+                $special_diet_need->Specialkost = $value['name'];
+                $special_diet_need->Antal = $value['amount'];
+                $special_diet_need->save();
             }
         }
 

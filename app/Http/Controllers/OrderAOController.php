@@ -71,6 +71,7 @@ class OrderAOController extends Controller
             $dateTime->setISODate($year, $request->week, $i);
             $cc = MenuAO::where('Datum', $dateTime->format('Y-m-d'))->first();
             if($cc !== null) {
+                //TODO!!! Se till att sätta vettiga withDefault-värden på MenuAO istället!
                 if($cc->Lunch1 == -1) {
                     $chosen_courses['Lunch1'][$i] = 'Ingen matsedel lagd';
                 } else {

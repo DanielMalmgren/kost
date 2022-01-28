@@ -25,24 +25,32 @@
                         </div>
 
                         <label>Specialkostbehov</label>
-                        @foreach($special_diets as $special_diet)
-                            @php
-                                $special_diet_need = $department->special_diet_needs->where('Specialkost_AO_id', $special_diet->id)->first();
-                                if($special_diet_need == null) {
-                                    $antal = 0;
-                                } else {
-                                    $antal = $special_diet_need->Antal;
-                                }
-                            @endphp
+                        @foreach($special_diet_needs as $special_diet_need)
                             <div class="form-row">
-                                <div class="col-4">
-                                    <label>{{$special_diet->Namn}}</label>
+                                <div class="col-5">
+                                    <input name="special_diet[{{$special_diet_need->id}}][name]" class="form-control" value="{{$special_diet_need->Specialkost}}">
                                 </div>
                                 <div class="col-2">
-                                    <input type="number" min="0" name="special_diets[{{$special_diet->id}}]" class="form-control" value="{{$antal}}">
+                                    <input type="number" min="0" name="special_diet[{{$special_diet_need->id}}][amount]" class="form-control" value="{{$special_diet_need->Antal}}">
                                 </div>
                             </div>
                         @endforeach
+                        <div class="form-row">
+                            <div class="col-5">
+                                <input name="new_special_diet[1][name]" class="form-control">
+                            </div>
+                            <div class="col-2">
+                                <input type="number" min="0" name="new_special_diet[1][amount]" class="form-control" value="0">
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="col-5">
+                                <input name="new_special_diet[2][name]" class="form-control">
+                            </div>
+                            <div class="col-2">
+                                <input type="number" min="0" name="new_special_diet[2][amount]" class="form-control" value="0">
+                            </div>
+                        </div>
 
                         <br>
 

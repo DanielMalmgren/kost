@@ -34,7 +34,7 @@
                             <label>Portioner totalt</label>
                         </div>
                         <div class="col-3">
-                            <input type="number" min="0" max="{{$department->Boende}}" name="whatever" class="form-control" value="{{$department->Boende}}">
+                            <input type="number" min="0" max="{{$department->Boende}}" name="Lunch1[{{$weekdaynumber}}]" class="form-control" value="{{$department->Boende}}">
                         </div>
                     </div>
 
@@ -45,7 +45,7 @@
 
                             <div class="form-row">
                                 <div class="col-8">
-                                    <label>{{$special_diet_need->special_diet->Namn}}</label>
+                                    <label>{{$special_diet_need->Specialkost}}</label>
                                 </div>
                                 <div class="col-3">
                                     <input type="number" min="0" max="{{$special_diet_need->Antal}}" name="whatever" class="form-control" value="{{$special_diet_need->Antal}}">
@@ -70,7 +70,7 @@
                             <label>Portioner totalt</label>
                         </div>
                         <div class="col-3">
-                            <input type="number" min="0" max="{{$department->Boende}}" name="whatever" class="form-control" value="{{$department->Boende}}">
+                            <input type="number" min="0" max="{{$department->Boende}}" name="Lunch2[{{$weekdaynumber}}]" class="form-control" value="{{$department->Boende}}">
                         </div>
                     </div>
 
@@ -81,7 +81,7 @@
 
                             <div class="form-row">
                                 <div class="col-8">
-                                    <label>{{$special_diet_need->special_diet->Namn}}</label>
+                                    <label>{{$special_diet_need->Specialkost}}</label>
                                 </div>
                                 <div class="col-3">
                                     <input type="number" min="0" max="{{$special_diet_need->Antal}}" name="whatever" class="form-control" value="{{$special_diet_need->Antal}}">
@@ -111,7 +111,7 @@
                             <label>Portioner totalt</label>
                         </div>
                         <div class="col-3">
-                            <input type="number" min="0" max="{{$department->Boende}}" name="whatever" class="form-control" value="{{$department->Boende}}">
+                            <input type="number" min="0" max="{{$department->Boende}}" name="Middag[{{$weekdaynumber}}]" class="form-control" value="{{$department->Boende}}">
                         </div>
                     </div>
 
@@ -122,7 +122,7 @@
 
                             <div class="form-row">
                                 <div class="col-8">
-                                    <label>{{$special_diet_need->special_diet->Namn}}</label>
+                                    <label>{{$special_diet_need->Specialkost}}</label>
                                 </div>
                                 <div class="col-3">
                                     <input type="number" min="0" max="{{$special_diet_need->Antal}}" name="whatever" class="form-control" value="{{$special_diet_need->Antal}}">
@@ -148,7 +148,7 @@
                                 <label>Portioner totalt</label>
                             </div>
                             <div class="col-3">
-                                <input type="number" min="0" max="{{$department->Boende}}" name="whatever" class="form-control" value="{{$department->Boende}}">
+                                <input type="number" min="0" max="{{$department->Boende}}" name="Dessert[{{$weekdaynumber}}]" class="form-control" value="{{$department->Boende}}">
                             </div>
                         </div>
 
@@ -159,7 +159,7 @@
 
                                 <div class="form-row">
                                     <div class="col-8">
-                                        <label>{{$special_diet_need->special_diet->Namn}}</label>
+                                        <label>{{$special_diet_need->Specialkost}}</label>
                                     </div>
                                     <div class="col-3">
                                         <input type="number" min="0" max="{{$special_diet_need->Antal}}" name="whatever" class="form-control" value="{{$special_diet_need->Antal}}">
