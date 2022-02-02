@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\DepartmentAO;
 use App\Models\MenuAO;
+use App\Models\OrderAO;
+use App\Models\OrderDietAO;
 
 class OrderAOController extends Controller
 {
@@ -113,42 +115,55 @@ class OrderAOController extends Controller
 
         $data = [
             'week' => $request->week,
+            'year' => $year,
             'department' => $department,
             'too_late' => $too_late,
             'almost_too_late' => $almost_too_late,
             'weekdays' => $weekdays,
             'dates' => $dates,
             'chosen_courses' => $chosen_courses,
+            'existing_orders' => OrderAO::all(),
         ];
         return view('order_ao.ajax')->with($data);
     }
 
     public function store(Request $request)
     {
-        $department = DepartmentAO::find($request->department_id);
+        for($i=1; $i <= 7; $i++) {
+            $dateTime=new \DateTime();
+            $dateTime->setISODate($request->year, $request->week, $i);
 
-        /*HomeCareOrder::updateOrCreate(
-            [
-                'Vecka' => $request->week,
-                'Specialkost' => $request->specialkost,
-                'Kund_id' => $customer->id,
-            ],
-            [
-                'Kund_namn' => $customer->Namn, 
-                'Kund_personnr' => $customer->Personnr, 
-                'Grupp' => $customer->grupp_id, 
-                'Bestdatum' => date("Y-m-d"), 
-                'Bestallare' => 'ITSAM\\'.session()->get('user')->username,
-                'Alt1' => $request->amount[1],
-                'Alt2' => $request->amount[2],
-                'Alt3' => $request->amount[3],
-                'Alt4' => $request->amount[4],
-                'Alt5' => $request->amount[5],
-                'Alt6' => $request->amount[6],
-                'Alt7' => $request->amount[7],
-                'Alt8' => $request->amount[8],
-            ]
-        );*/
+            $order = OrderAO::updateOrCreate(
+                [
+                    'Datum' => $dateTime,
+                    'Avdelningar_AO_id' => $request->department_id,
+                ],
+                [
+                    'RegDatum' => date("Y-m-d"), 
+                    'RegAv' => 'ITSAM\\'.session()->get('user')->username,
+                    'Lunch1' => $request->Lunch1[$i],
+                    'Lunch2' => $request->Lunch2[$i],
+                    'Middag' => $request->Middag[$i],
+                    'Dessert' => isset($request->Dessert[$i])?$request->Dessert[$i]:-1,
+                ]
+            );
+
+            foreach($request->diet[$order->id] as $name => $amounts) {
+                OrderDietAO::updateOrCreate(
+                    [
+                        'Order_AO_id' => $order->id,
+                        'Namn' => $name,
+                    ],
+                    [
+                        'Lunch1' => $amounts['Lunch1'],
+                        'Lunch2' => $amounts['Lunch2'],
+                        'Middag' => $amounts['Middag'],
+                        'Dessert' => isset($amounts['Dessert'])?$amounts['Dessert']:null,
+                    ]
+                );
+            }
+
+        }
 
         return redirect('/order_ao/create')->with('success', 'Beställningen har sparats');
     }

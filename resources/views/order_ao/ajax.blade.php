@@ -2,24 +2,37 @@
     @csrf
 
     <input type="hidden" id="week" name="week" value="{{$week}}">
+    <input type="hidden" id="year" name="year" value="{{$year}}">
     <input type="hidden" name="department_id" value="{{$department->id}}">
 
     <ul class="nav nav-tabs" id="myTab" role="tablist">
         @foreach($weekdays as $weekdaynumber => $weekday)
             <li class="nav-item" role="presentation">
-                <a class="nav-link {{$weekdaynumber==1?'active':''}}" id="{{$weekdaynumber}}-tab" data-toggle="tab" href="#tab{{$weekdaynumber}}" role="tab" aria-controls="{{$weekdaynumber}}">{{$weekday}}</a>
+                <a class="nav-link {{$weekdaynumber==1?'active':''}}" id="{{$weekdaynumber}}-tab" data-toggle="tab" href="#tab{{$weekdaynumber}}" role="tab" aria-controls="{{$weekdaynumber}}">{{$weekday}}<br>{{$dates[$weekdaynumber]->format('j/n')}}</a>
             </li>
         @endforeach
     </ul>
     <div class="tab-content" id="myTabContent">
         @foreach($weekdays as $weekdaynumber => $weekday)
+
+            @php
+                $existing = App\Models\OrderAO::where('Datum', $dates[$weekdaynumber]->format('Y-m-d'))->first();
+                if(empty($existing)) {
+                    $lunch1 = $department->Boende;
+                    $lunch2 = $department->Boende;
+                    $middag = $department->Boende;
+                    $dessert = $department->Boende;
+                } else {
+                    $lunch1 = $existing->Lunch1;
+                    $lunch2 = $existing->Lunch2;
+                    $middag = $existing->Middag;
+                    $dessert = $existing->Dessert;
+                }
+            @endphp
+
             <div class="tab-pane fade {{$weekdaynumber==1?'show active':''}}" id="tab{{$weekdaynumber}}" role="tabpanel" aria-labelledby="{{$weekdaynumber}}-tab">
             
                 <br>
-            
-            {{$dates[$weekdaynumber]->format('Y-m-d')}}
-
-            <br><br>
             
 <div class="container">
     <div class="row justify-content-center">
@@ -34,7 +47,7 @@
                             <label>Portioner totalt</label>
                         </div>
                         <div class="col-3">
-                            <input type="number" min="0" max="{{$department->Boende}}" name="Lunch1[{{$weekdaynumber}}]" class="form-control" value="{{$department->Boende}}">
+                            <input type="number" min="0" max="{{$department->Boende}}" name="Lunch1[{{$weekdaynumber}}]" class="form-control" value="{{$lunch1}}">
                         </div>
                     </div>
 
@@ -43,12 +56,21 @@
 
                         @foreach($department->special_diet_needs as $special_diet_need)
 
+                            @php
+                                $existingdiet = App\Models\OrderDietAO::where('Order_AO_id', $existing->id)->where('Namn', $special_diet_need->Specialkost)->first();
+                                if(empty($existingdiet)) {
+                                    $thisdiet = $special_diet_need->Antal;
+                                } else {
+                                    $thisdiet = $existingdiet->Lunch1;
+                                }
+                            @endphp
+
                             <div class="form-row">
                                 <div class="col-8">
                                     <label>{{$special_diet_need->Specialkost}}</label>
                                 </div>
                                 <div class="col-3">
-                                    <input type="number" min="0" max="{{$special_diet_need->Antal}}" name="whatever" class="form-control" value="{{$special_diet_need->Antal}}">
+                                    <input type="number" min="0" max="{{$special_diet_need->Antal}}" name="diet[{{$existing->id}}][{{$special_diet_need->Specialkost}}][Lunch1]" class="form-control" value="{{$thisdiet}}">
                                 </div>
                             </div>
 
@@ -70,7 +92,7 @@
                             <label>Portioner totalt</label>
                         </div>
                         <div class="col-3">
-                            <input type="number" min="0" max="{{$department->Boende}}" name="Lunch2[{{$weekdaynumber}}]" class="form-control" value="{{$department->Boende}}">
+                            <input type="number" min="0" max="{{$department->Boende}}" name="Lunch2[{{$weekdaynumber}}]" class="form-control" value="{{$lunch2}}">
                         </div>
                     </div>
 
@@ -79,12 +101,21 @@
 
                         @foreach($department->special_diet_needs as $special_diet_need)
 
+                            @php
+                                $existingdiet = App\Models\OrderDietAO::where('Order_AO_id', $existing->id)->where('Namn', $special_diet_need->Specialkost)->first();
+                                if(empty($existingdiet)) {
+                                    $thisdiet = $special_diet_need->Antal;
+                                } else {
+                                    $thisdiet = $existingdiet->Lunch2;
+                                }
+                            @endphp
+
                             <div class="form-row">
                                 <div class="col-8">
                                     <label>{{$special_diet_need->Specialkost}}</label>
                                 </div>
                                 <div class="col-3">
-                                    <input type="number" min="0" max="{{$special_diet_need->Antal}}" name="whatever" class="form-control" value="{{$special_diet_need->Antal}}">
+                                    <input type="number" min="0" max="{{$special_diet_need->Antal}}" name="diet[{{$existing->id}}][{{$special_diet_need->Specialkost}}][Lunch2]" class="form-control" value="{{$thisdiet}}">
                                 </div>
                             </div>
 
@@ -111,7 +142,7 @@
                             <label>Portioner totalt</label>
                         </div>
                         <div class="col-3">
-                            <input type="number" min="0" max="{{$department->Boende}}" name="Middag[{{$weekdaynumber}}]" class="form-control" value="{{$department->Boende}}">
+                            <input type="number" min="0" max="{{$department->Boende}}" name="Middag[{{$weekdaynumber}}]" class="form-control" value="{{$middag}}">
                         </div>
                     </div>
 
@@ -120,12 +151,21 @@
 
                         @foreach($department->special_diet_needs as $special_diet_need)
 
+                            @php
+                                $existingdiet = App\Models\OrderDietAO::where('Order_AO_id', $existing->id)->where('Namn', $special_diet_need->Specialkost)->first();
+                                if(empty($existingdiet)) {
+                                    $thisdiet = $special_diet_need->Antal;
+                                } else {
+                                    $thisdiet = $existingdiet->Middag;
+                                }
+                            @endphp
+
                             <div class="form-row">
                                 <div class="col-8">
                                     <label>{{$special_diet_need->Specialkost}}</label>
                                 </div>
                                 <div class="col-3">
-                                    <input type="number" min="0" max="{{$special_diet_need->Antal}}" name="whatever" class="form-control" value="{{$special_diet_need->Antal}}">
+                                    <input type="number" min="0" max="{{$special_diet_need->Antal}}" name="diet[{{$existing->id}}][{{$special_diet_need->Specialkost}}][Middag]" class="form-control" value="{{$thisdiet}}">
                                 </div>
                             </div>
 
@@ -148,7 +188,7 @@
                                 <label>Portioner totalt</label>
                             </div>
                             <div class="col-3">
-                                <input type="number" min="0" max="{{$department->Boende}}" name="Dessert[{{$weekdaynumber}}]" class="form-control" value="{{$department->Boende}}">
+                                <input type="number" min="0" max="{{$department->Boende}}" name="Dessert[{{$weekdaynumber}}]" class="form-control" value="{{$dessert}}">
                             </div>
                         </div>
 
@@ -157,12 +197,21 @@
 
                             @foreach($department->special_diet_needs as $special_diet_need)
 
+                            @php
+                                $existingdiet = App\Models\OrderDietAO::where('Order_AO_id', $existing->id)->where('Namn', $special_diet_need->Specialkost)->first();
+                                if(empty($existingdiet) || is_null($existingdiet->Dessert)) {
+                                    $thisdiet = $special_diet_need->Antal;
+                                } else {
+                                    $thisdiet = $existingdiet->Dessert;
+                                }
+                            @endphp
+
                                 <div class="form-row">
                                     <div class="col-8">
                                         <label>{{$special_diet_need->Specialkost}}</label>
                                     </div>
                                     <div class="col-3">
-                                        <input type="number" min="0" max="{{$special_diet_need->Antal}}" name="whatever" class="form-control" value="{{$special_diet_need->Antal}}">
+                                        <input type="number" min="0" max="{{$special_diet_need->Antal}}" name="diet[{{$existing->id}}][{{$special_diet_need->Specialkost}}][Dessert]" class="form-control" value="{{$thisdiet}}">
                                     </div>
                                 </div>
 
