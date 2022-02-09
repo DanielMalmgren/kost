@@ -48,13 +48,6 @@ Route::get('/menu_ao',                  'MenuAOController@edit');
 Route::get('/menu_ao/ajax/{week}',      'MenuAOController@ajax');
 Route::put('/menu_ao',                  'MenuAOController@update');
 
-/*Route::get('/course_ao',                'CourseAOController@index');
-Route::get('/course_ao/create',         'CourseAOController@create');
-Route::post('/course_ao',               'CourseAOController@store');
-Route::get('/course_ao/{course}/edit',  'CourseAOController@edit');
-Route::put('/course_ao/{course}',       'CourseAOController@update');
-Route::delete('/course_ao/{course}',    'CourseAOController@destroy');*/
-
 Route::get('/department_ao',                    'DepartmentAOController@index');
 Route::get('/department_ao/create',             'DepartmentAOController@create');
 Route::post('/department_ao',                   'DepartmentAOController@store');
@@ -66,3 +59,4 @@ Route::get('/order_ao',                     'OrderAOController@index');
 Route::get('/order_ao/create',              'OrderAOController@create');
 Route::get('/order_ao/ajax',                'OrderAOController@ajax');
 Route::post('/order_ao',                    'OrderAOController@store');
+Route::get('/order_ao/pdf',                 'OrderAOController@pdf');
