@@ -129,6 +129,7 @@ class OrderAOController extends Controller
 
     public function store(Request $request)
     {
+        logger(print_r($request->id, true));
         for($i=1; $i <= 7; $i++) {
             $dateTime=new \DateTime();
             $dateTime->setISODate($request->year, $request->week, $i);
@@ -148,7 +149,13 @@ class OrderAOController extends Controller
                 ]
             );
 
-            foreach($request->diet[$order->id] as $name => $amounts) {
+            if($order->wasRecentlyCreated) {
+                $order_id = $request->id[$i];
+            } else {
+                $order_id = $order->id;
+            }
+
+            foreach($request->diet[$order_id] as $name => $amounts) {
                 OrderDietAO::updateOrCreate(
                     [
                         'Order_AO_id' => $order->id,
