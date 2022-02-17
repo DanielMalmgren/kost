@@ -57,11 +57,9 @@ class CourseController extends Controller
     {
         $this->validate($request, [
             'name' => 'required',
-            'ingredients' => 'required',
         ],
         [
             'name.required' => __('Du måste ange ett namn på din maträtt!'),
-            'ingredients.required' => __('Du måste ange ingredienser för din maträtt!'),
         ]);
 
         $course->Namn = $request->name;

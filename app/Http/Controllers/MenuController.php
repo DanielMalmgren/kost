@@ -37,7 +37,7 @@ class MenuController extends Controller
             $type = 'Normal';
         }
 
-        $courses = Course::orderBy('Namn')->where('Specialkost', $type)->where('Namn', '!=', '')->get();
+        $courses = Course::orderBy('Namn')->where('Specialkost', $type)->whereNotNull('Ingredienser')->get();
 
         $chosen_courses = [];
         for ($i=1; $i <= 8; $i++) {
