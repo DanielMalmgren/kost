@@ -129,7 +129,6 @@ class OrderAOController extends Controller
 
     public function store(Request $request)
     {
-        logger(print_r($request->id, true));
         for($i=1; $i <= 7; $i++) {
             $dateTime=new \DateTime();
             $dateTime->setISODate($request->year, $request->week, $i);
