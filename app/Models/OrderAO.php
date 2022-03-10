@@ -21,4 +21,8 @@ class OrderAO extends Model
         return $this->hasMany('App\Models\OrderDietAO', 'Order_AO_id');
     }
 
+    public function department()
+    {
+        return $this->belongsTo('App\Models\DepartmentAO', 'Avdelningar_AO_id');
+    }
 }

@@ -36,85 +36,129 @@
                             <thead class="thead-light">
                                 <tr>
                                     <td></td>
-                                    <th colspan="4" scope="col">Lunch 1<br>Spaghetti och köttfärssås</th>
-                                    <th colspan="3" scope="col">Lunch 2<br>Pytt i panna</th>
-                                    <th colspan="4" scope="col">Middag<br>Biff a la Lindström</th>
+                                    <th colspan="{{$chosen_courses['Lunch1'][$weekdaynumber]->components()}}" scope="col">Lunch 1<br>{{$chosen_courses['Lunch1'][$weekdaynumber]->Namn}}</th>
+                                    <th colspan="{{$chosen_courses['Lunch2'][$weekdaynumber]->components()}}" scope="col">Lunch 2<br>{{$chosen_courses['Lunch2'][$weekdaynumber]->Namn}}</th>
+                                    <th colspan="{{$chosen_courses['Middag'][$weekdaynumber]->components()}}" scope="col">Middag<br>{{$chosen_courses['Middag'][$weekdaynumber]->Namn}}</th>
                                     @if($weekdaynumber==4 || $weekdaynumber==6 || $weekdaynumber==7)
-                                        <th colspan="2" scope="col">Dessert<br>Pannacotta</th>
+                                        <th colspan="{{$chosen_courses['Dessert'][$weekdaynumber]->components()}}" scope="col">Dessert<br>{{$chosen_courses['Dessert'][$weekdaynumber]->Namn}}</th>
                                     @endif
                                 </tr>
                                 <tr>
                                     <td></td>
-                                    <th scope="col">Potatis</th>
-                                    <th scope="col">Kött</th>
-                                    <th scope="col">Sås</th>
-                                    <th scope="col">Grönsaker</th>
-                                    <th scope="col">Potatis</th>
-                                    <th scope="col">Kött</th>
-                                    <th scope="col">Grönsaker</th>
-                                    <th scope="col">Potatis</th>
-                                    <th scope="col">Kött</th>
-                                    <th scope="col">Sås</th>
-                                    <th scope="col">Grönsaker</th>
+                                    @if($chosen_courses['Lunch1'][$weekdaynumber]->komponent1 != 'Ingenting')
+                                        <th scope="col">{{$chosen_courses['Lunch1'][$weekdaynumber]->komponent1}}</th>
+                                    @endif
+                                    @if($chosen_courses['Lunch1'][$weekdaynumber]->komponent2 != 'Ingenting')
+                                        <th scope="col">{{$chosen_courses['Lunch1'][$weekdaynumber]->komponent2}}</th>
+                                    @endif
+                                    @if($chosen_courses['Lunch1'][$weekdaynumber]->komponent3 != 'Ingenting')
+                                        <th scope="col">{{$chosen_courses['Lunch1'][$weekdaynumber]->komponent3}}</th>
+                                    @endif
+                                    @if($chosen_courses['Lunch1'][$weekdaynumber]->komponent4 != 'Ingenting')
+                                        <th scope="col">{{$chosen_courses['Lunch1'][$weekdaynumber]->komponent4}}</th>
+                                    @endif
+
+                                    @if($chosen_courses['Lunch2'][$weekdaynumber]->komponent1 != 'Ingenting')
+                                        <th scope="col">{{$chosen_courses['Lunch2'][$weekdaynumber]->komponent1}}</th>
+                                    @endif
+                                    @if($chosen_courses['Lunch2'][$weekdaynumber]->komponent2 != 'Ingenting')
+                                        <th scope="col">{{$chosen_courses['Lunch2'][$weekdaynumber]->komponent2}}</th>
+                                    @endif
+                                    @if($chosen_courses['Lunch2'][$weekdaynumber]->komponent3 != 'Ingenting')
+                                        <th scope="col">{{$chosen_courses['Lunch2'][$weekdaynumber]->komponent3}}</th>
+                                    @endif
+                                    @if($chosen_courses['Lunch2'][$weekdaynumber]->komponent4 != 'Ingenting')
+                                        <th scope="col">{{$chosen_courses['Lunch2'][$weekdaynumber]->komponent4}}</th>
+                                    @endif
+
+                                    @if($chosen_courses['Middag'][$weekdaynumber]->komponent1 != 'Ingenting')
+                                        <th scope="col">{{$chosen_courses['Middag'][$weekdaynumber]->komponent1}}</th>
+                                    @endif
+                                    @if($chosen_courses['Middag'][$weekdaynumber]->komponent2 != 'Ingenting')
+                                        <th scope="col">{{$chosen_courses['Middag'][$weekdaynumber]->komponent2}}</th>
+                                    @endif
+                                    @if($chosen_courses['Middag'][$weekdaynumber]->komponent3 != 'Ingenting')
+                                        <th scope="col">{{$chosen_courses['Middag'][$weekdaynumber]->komponent3}}</th>
+                                    @endif
+                                    @if($chosen_courses['Middag'][$weekdaynumber]->komponent4 != 'Ingenting')
+                                        <th scope="col">{{$chosen_courses['Middag'][$weekdaynumber]->komponent4}}</th>
+                                    @endif
+
+                                    @if($chosen_courses['Dessert'][$weekdaynumber]->komponent1 != 'Ingenting')
+                                        <th scope="col">{{$chosen_courses['Dessert'][$weekdaynumber]->komponent1}}</th>
+                                    @endif
+                                    @if($chosen_courses['Dessert'][$weekdaynumber]->komponent2 != 'Ingenting')
+                                        <th scope="col">{{$chosen_courses['Dessert'][$weekdaynumber]->komponent2}}</th>
+                                    @endif
+                                    @if($chosen_courses['Dessert'][$weekdaynumber]->komponent3 != 'Ingenting')
+                                        <th scope="col">{{$chosen_courses['Dessert'][$weekdaynumber]->komponent3}}</th>
+                                    @endif
+                                    @if($chosen_courses['Dessert'][$weekdaynumber]->komponent4 != 'Ingenting')
+                                        <th scope="col">{{$chosen_courses['Dessert'][$weekdaynumber]->komponent4}}</th>
+                                    @endif
+
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <th scope="row">Glutenfritt</th>
-                                    <td><input type="checkbox"></td>
-                                    <td><input type="checkbox"></td>
-                                    <td><input type="checkbox"></td>
-                                    <td><input type="checkbox"></td>
-                                    <td><input type="checkbox"></td>
-                                    <td><input type="checkbox"></td>
-                                    <td><input type="checkbox"></td>
-                                    <td><input type="checkbox"></td>
-                                    <td><input type="checkbox"></td>
-                                    <td><input type="checkbox"></td>
-                                    <td><input type="checkbox"></td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">Vegetariskt</th>
-                                    <td><input type="checkbox"></td>
-                                    <td><input type="checkbox"></td>
-                                    <td><input type="checkbox"></td>
-                                    <td><input type="checkbox"></td>
-                                    <td><input type="checkbox"></td>
-                                    <td><input type="checkbox"></td>
-                                    <td><input type="checkbox"></td>
-                                    <td><input type="checkbox"></td>
-                                    <td><input type="checkbox"></td>
-                                    <td><input type="checkbox"></td>
-                                    <td><input type="checkbox"></td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">Minus fisk</th>
-                                    <td><input type="checkbox"></td>
-                                    <td><input type="checkbox"></td>
-                                    <td><input type="checkbox"></td>
-                                    <td><input type="checkbox"></td>
-                                    <td><input type="checkbox"></td>
-                                    <td><input type="checkbox"></td>
-                                    <td><input type="checkbox"></td>
-                                    <td><input type="checkbox"></td>
-                                    <td><input type="checkbox"></td>
-                                    <td><input type="checkbox"></td>
-                                    <td><input type="checkbox"></td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">Enbart gelé</th>
-                                    <td><input type="checkbox"></td>
-                                    <td><input type="checkbox"></td>
-                                    <td><input type="checkbox"></td>
-                                    <td><input type="checkbox"></td>
-                                    <td><input type="checkbox"></td>
-                                    <td><input type="checkbox"></td>
-                                    <td><input type="checkbox"></td>
-                                    <td><input type="checkbox"></td>
-                                    <td><input type="checkbox"></td>
-                                    <td><input type="checkbox"></td>
-                                    <td><input type="checkbox"></td>
-                                </tr>
+
+                                @foreach($sdns as $sdn)
+                                    <tr>
+                                        <th scope="row">{{$sdn->Specialkost}}</th>
+
+                                        @if($chosen_courses['Lunch1'][$weekdaynumber]->komponent1 != 'Ingenting')
+                                            <td><input name="Lunch1[{{$weekdaynumber}}][komponent1][{{$sdn->Specialkost}}]" value="1" type="checkbox"></td>
+                                        @endif
+                                        @if($chosen_courses['Lunch1'][$weekdaynumber]->komponent2 != 'Ingenting')
+                                            <td><input name="Lunch1[{{$weekdaynumber}}][komponent2][{{$sdn->Specialkost}}]" value="1" type="checkbox"></td>
+                                        @endif
+                                        @if($chosen_courses['Lunch1'][$weekdaynumber]->komponent3 != 'Ingenting')
+                                            <td><input name="Lunch1[{{$weekdaynumber}}][komponent3][{{$sdn->Specialkost}}]" value="1" type="checkbox"></td>
+                                        @endif
+                                        @if($chosen_courses['Lunch1'][$weekdaynumber]->komponent4 != 'Ingenting')
+                                            <td><input name="Lunch1[{{$weekdaynumber}}][komponent4][{{$sdn->Specialkost}}]" value="1" type="checkbox"></td>
+                                        @endif
+
+                                        @if($chosen_courses['Lunch2'][$weekdaynumber]->komponent1 != 'Ingenting')
+                                            <td><input name="Lunch2[{{$weekdaynumber}}][komponent1][{{$sdn->Specialkost}}]" value="1" type="checkbox"></td>
+                                        @endif
+                                        @if($chosen_courses['Lunch2'][$weekdaynumber]->komponent2 != 'Ingenting')
+                                            <td><input name="Lunch2[{{$weekdaynumber}}][komponent2][{{$sdn->Specialkost}}]" value="1" type="checkbox"></td>
+                                        @endif
+                                        @if($chosen_courses['Lunch2'][$weekdaynumber]->komponent3 != 'Ingenting')
+                                            <td><input name="Lunch2[{{$weekdaynumber}}][komponent3][{{$sdn->Specialkost}}]" value="1" type="checkbox"></td>
+                                        @endif
+                                        @if($chosen_courses['Lunch2'][$weekdaynumber]->komponent4 != 'Ingenting')
+                                            <td><input name="Lunch2[{{$weekdaynumber}}][komponent4][{{$sdn->Specialkost}}]" value="1" type="checkbox"></td>
+                                        @endif
+
+                                        @if($chosen_courses['Middag'][$weekdaynumber]->komponent1 != 'Ingenting')
+                                            <td><input name="Middag[{{$weekdaynumber}}][komponent1][{{$sdn->Specialkost}}]" value="1" type="checkbox"></td>
+                                        @endif
+                                        @if($chosen_courses['Middag'][$weekdaynumber]->komponent2 != 'Ingenting')
+                                            <td><input name="Middag[{{$weekdaynumber}}][komponent2][{{$sdn->Specialkost}}]" value="1" type="checkbox"></td>
+                                        @endif
+                                        @if($chosen_courses['Middag'][$weekdaynumber]->komponent3 != 'Ingenting')
+                                            <td><input name="Middag[{{$weekdaynumber}}][komponent3][{{$sdn->Specialkost}}]" value="1" type="checkbox"></td>
+                                        @endif
+                                        @if($chosen_courses['Middag'][$weekdaynumber]->komponent4 != 'Ingenting')
+                                            <td><input name="Middag[{{$weekdaynumber}}][komponent4][{{$sdn->Specialkost}}]" value="1" type="checkbox"></td>
+                                        @endif
+
+                                        @if($chosen_courses['Dessert'][$weekdaynumber]->komponent1 != 'Ingenting')
+                                            <td><input name="Dessert[{{$weekdaynumber}}][komponent1][{{$sdn->Specialkost}}]" value="1" type="checkbox"></td>
+                                        @endif
+                                        @if($chosen_courses['Dessert'][$weekdaynumber]->komponent2 != 'Ingenting')
+                                            <td><input name="Dessert[{{$weekdaynumber}}][komponent2][{{$sdn->Specialkost}}]" value="1" type="checkbox"></td>
+                                        @endif
+                                        @if($chosen_courses['Dessert'][$weekdaynumber]->komponent3 != 'Ingenting')
+                                            <td><input name="Dessert[{{$weekdaynumber}}][komponent3][{{$sdn->Specialkost}}]" value="1" type="checkbox"></td>
+                                        @endif
+                                        @if($chosen_courses['Dessert'][$weekdaynumber]->komponent4 != 'Ingenting')
+                                            <td><input name="Dessert[{{$weekdaynumber}}][komponent4][{{$sdn->Specialkost}}]" value="1" type="checkbox"></td>
+                                        @endif
+
+                                    </tr>
+                                @endforeach
                             </tbody>
                         </table>
                     </div>
@@ -128,7 +172,7 @@
 
     <br>
 
-    <button disabled class="btn btn-primary btn-lg btn-block" id="submit" name="submit" type="submit">Skapa pdf</button>
+    <button class="btn btn-primary btn-lg btn-block" id="submit" name="submit" type="submit">Skapa pdf för etikettutskrift</button>
 </form>
 
                 </div>

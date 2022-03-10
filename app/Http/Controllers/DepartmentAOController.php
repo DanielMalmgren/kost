@@ -77,14 +77,16 @@ class DepartmentAOController extends Controller
         $department->Boende = $request->boende;
         $department->save();
 
-        foreach($request->special_diet as $id => $value) {
-            $special_diet_need = SpeciaLDietNeedAO::find($id);
-            if($value['name'] == '' || $value['amount'] == 0) {
-                $special_diet_need->delete();
-            } else {
-                $special_diet_need->Specialkost = $value['name'];
-                $special_diet_need->Antal = $value['amount'];
-                $special_diet_need->save();
+        if(isset($request->special_diet)) {
+            foreach($request->special_diet as $id => $value) {
+                $special_diet_need = SpeciaLDietNeedAO::find($id);
+                if($value['name'] == '' || $value['amount'] == 0) {
+                    $special_diet_need->delete();
+                } else {
+                    $special_diet_need->Specialkost = $value['name'];
+                    $special_diet_need->Antal = $value['amount'];
+                    $special_diet_need->save();
+                }
             }
         }
         foreach($request->new_special_diet as $id => $value) {
