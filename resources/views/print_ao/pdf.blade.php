@@ -31,6 +31,7 @@
             bottom:0;
             right:0;
             padding:3mm;
+            color: red;
         }
 
         .bottom_left {

@@ -7,6 +7,7 @@ use App\Models\MenuAO;
 use App\Models\Course;
 use App\Models\SpecialDietNeedAO;
 use App\Models\OrderAO;
+use App\Models\DepartmentAO;
 use PDF;
 
 class PrintAOController extends Controller
@@ -14,7 +15,10 @@ class PrintAOController extends Controller
     public function __construct()
     {
         $this->middleware('authnodb');
+        $this->formatter = new \IntlDateFormatter('sv_SE', pattern: 'EEEE d MMM');
     }
+
+    private $formatter;
 
     public function index(Request $request)
     {
@@ -66,204 +70,100 @@ class PrintAOController extends Controller
         return view('print_ao.index')->with($data);
     }
 
+    private function make_label($weekday, $meal, $component, $dayorders, &$labels, $cc, $dateTime, $request, $department)
+    {
+        $objname = $meal."_object";
+        $compname = "komponent".$component;
+        $normalamount = $dayorders->$meal;
+        //För den här komponenten, gå över alla relevanta bockar
+        if(isset($request->$meal[$weekday]) && isset($request->$meal[$weekday][$compname])) {
+            foreach($request->$meal[$weekday][$compname] as $dietname => $enabled) {
+                $dietneed = $department->special_diet_needs->where('Specialkost', $dietname)->first();
+                if(isset($dietneed)) {
+                    $dietamount = $dietneed->Antal;
+                    if($enabled) {
+                        //Är en bock true, skapa en label för den
+                        $labels->push([
+                            'date' => $this->formatter->format($dateTime),
+                            'amount' => $dietamount,
+                            'department' => $dayorders->department->Namn,
+                            'course' => $meal.': '.$cc->$objname->Namn,
+                            'comp' => $cc->$objname->$compname,
+                            'diet' => $dietname
+                        ]);
+                    } else {
+                        //Är en bock false, räkna på det antalet på normalkosten
+                        $normalamount += $dietamount;
+                    }
+                }
+            }
+        }
+        if(!is_null($cc->$objname->$compname) && $cc->$objname->$compname != 'Ingenting' && $normalamount > 0) {
+            $labels->push([
+                'date' => $this->formatter->format($dateTime),
+                'amount' => $normalamount,
+                'department' => $dayorders->department->Namn,
+                'course' => $meal.': '.$cc->$objname->Namn,
+                'comp' => $cc->$objname->$compname,
+                'diet' => ''
+            ]);
+        }
+
+    }
+
     public function print(Request $request)
     {
-        $formatter = new \IntlDateFormatter('sv_SE', pattern: 'EEEE d MMM');
-
         $year = date("Y");
         $week = date("W");
 
         $labels = collect();
+        //För varje dag i veckan...
         for($i=1; $i <= 7; $i++) {
             $dateTime=new \DateTime();
             $dateTime->setISODate($year, $week, $i);
 
             $cc = MenuAO::where('Datum', $dateTime->format('Y-m-d'))->first();
 
-            $dayorders = OrderAO::where('Datum', $dateTime->format('Y-m-d'))->first();
+            //...för varje avdelning...
+            foreach(DepartmentAO::all() as $department) {
+                $dayorders = OrderAO::where('Datum', $dateTime->format('Y-m-d'))->where('Avdelningar_AO_id', $department->id)->first();
 
-            if($dayorders->Lunch1 > 0) {
-                if(!is_null($cc->Lunch1_object->komponent1) && $cc->Lunch1_object->komponent1 != 'Ingenting') {
-                    $labels->push([
-                        'date' => $formatter->format($dateTime),
-                        'amount' => $dayorders->Lunch1,
-                        'department' => $dayorders->department->Namn,
-                        'course' => 'Lunch 1: '.$cc->Lunch1_object->Namn,
-                        'comp' => $cc->Lunch1_object->komponent1,
-                        'diet' => ''
-                    ]);
-                }
+                if(isset($dayorders)) {
 
-                if(!is_null($cc->Lunch1_object->komponent2) && $cc->Lunch1_object->komponent2 != 'Ingenting') {
-                    $labels->push([
-                        'date' => $formatter->format($dateTime),
-                        'amount' => $dayorders->Lunch1,
-                        'department' => $dayorders->department->Namn,
-                        'course' => 'Lunch 1: '.$cc->Lunch1_object->Namn,
-                        'comp' => $cc->Lunch1_object->komponent2,
-                        'diet' => ''
-                    ]);
-                }
+                    //..för varje måltid...
+                    foreach(array('Lunch1', 'Lunch2', 'Middag', 'Dessert') as $meal) {
+                        if(isset($dayorders->$meal) && $dayorders->$meal > 0) {
+                            //...och för varje komponent i den måltiden
+                            for($component=1; $component <= 4; $component++) {
+                                $this->make_label($i, $meal, $component, $dayorders, $labels, $cc, $dateTime, $request, $department);
+                            }
+                        }    
+                    }
 
-                if(!is_null($cc->Lunch1_object->komponent3) && $cc->Lunch1_object->komponent3 != 'Ingenting') {
-                    $labels->push([
-                        'date' => $formatter->format($dateTime),
-                        'amount' => $dayorders->Lunch1,
-                        'department' => $dayorders->department->Namn,
-                        'course' => 'Lunch 1: '.$cc->Lunch1_object->Namn,
-                        'comp' => $cc->Lunch1_object->komponent3,
-                        'diet' => ''
-                    ]);
-                }
+                    /*if($dayorders->Lunch1 > 0) {
+                        for($component=1; $component <= 4; $component++) {
+                            $this->make_label($i, "Lunch1", $component, $dayorders, $labels, $cc, $dateTime, $request, $department);
+                        }
+                    }
 
-                if(!is_null($cc->Lunch1_object->komponent4) && $cc->Lunch1_object->komponent4 != 'Ingenting') {
-                    $labels->push([
-                        'date' => $formatter->format($dateTime),
-                        'amount' => $dayorders->Lunch1,
-                        'department' => $dayorders->department->Namn,
-                        'course' => 'Lunch 1: '.$cc->Lunch1_object->Namn,
-                        'comp' => $cc->Lunch1_object->komponent4,
-                        'diet' => ''
-                    ]);
-                }
-            }
+                    if($dayorders->Lunch2 > 0) {
+                        for($component=1; $component <= 4; $component++) {
+                            $this->make_label($i, "Lunch2", $component, $dayorders, $labels, $cc, $dateTime, $request, $department);
+                        }
+                    }
 
-            if($dayorders->Lunch2 > 0) {
-                if(!is_null($cc->Lunch2_object->komponent1) && $cc->Lunch2_object->komponent1 != 'Ingenting') {
-                    $labels->push([
-                        'date' => $formatter->format($dateTime),
-                        'amount' => $dayorders->Lunch2,
-                        'department' => $dayorders->department->Namn,
-                        'course' => 'Lunch 2: '.$cc->Lunch2_object->Namn,
-                        'comp' => $cc->Lunch2_object->komponent1,
-                        'diet' => ''
-                    ]);
-                }
+                    if($dayorders->Middag > 0) {
+                        for($component=1; $component <= 4; $component++) {
+                            $this->make_label($i, "Middag", $component, $dayorders, $labels, $cc, $dateTime, $request, $department);
+                        }
+                    }
 
-                if(!is_null($cc->Lunch2_object->komponent2) && $cc->Lunch2_object->komponent2 != 'Ingenting') {
-                    $labels->push([
-                        'date' => $formatter->format($dateTime),
-                        'amount' => $dayorders->Lunch2,
-                        'department' => $dayorders->department->Namn,
-                        'course' => 'Lunch 2: '.$cc->Lunch2_object->Namn,
-                        'comp' => $cc->Lunch2_object->komponent2,
-                        'diet' => ''
-                    ]);
+                    if(isset($dayorders->Dessert) && $dayorders->Dessert > 0) {
+                        for($component=1; $component <= 4; $component++) {
+                            $this->make_label($i, "Dessert", $component, $dayorders, $labels, $cc, $dateTime, $request, $department);
+                        }
+                    }*/
                 }
-
-                if(!is_null($cc->Lunch2_object->komponent3) && $cc->Lunch2_object->komponent3 != 'Ingenting') {
-                    $labels->push([
-                        'date' => $formatter->format($dateTime),
-                        'amount' => $dayorders->Lunch2,
-                        'department' => $dayorders->department->Namn,
-                        'course' => 'Lunch 2: '.$cc->Lunch2_object->Namn,
-                        'comp' => $cc->Lunch2_object->komponent3,
-                        'diet' => ''
-                    ]);
-                }
-
-                if(!is_null($cc->Lunch2_object->komponent4) && $cc->Lunch2_object->komponent4 != 'Ingenting') {
-                    $labels->push([
-                        'date' => $formatter->format($dateTime),
-                        'amount' => $dayorders->Lunch2,
-                        'department' => $dayorders->department->Namn,
-                        'course' => 'Lunch 2: '.$cc->Lunch2_object->Namn,
-                        'comp' => $cc->Lunch2_object->komponent4,
-                        'diet' => ''
-                    ]);
-                }
-            }
-
-            if($dayorders->Middag > 0) {
-                if(!is_null($cc->Middag_object->komponent1) && $cc->Middag_object->komponent1 != 'Ingenting') {
-                    $labels->push([
-                        'date' => $formatter->format($dateTime),
-                        'amount' => $dayorders->Middag,
-                        'department' => $dayorders->department->Namn,
-                        'course' => 'Middag: '.$cc->Middag_object->Namn,
-                        'comp' => $cc->Middag_object->komponent1,
-                        'diet' => ''
-                    ]);
-                }
-
-                if(!is_null($cc->Middag_object->komponent2) && $cc->Middag_object->komponent2 != 'Ingenting') {
-                    $labels->push([
-                        'date' => $formatter->format($dateTime),
-                        'amount' => $dayorders->Middag,
-                        'department' => $dayorders->department->Namn,
-                        'course' => 'Middag: '.$cc->Middag_object->Namn,
-                        'comp' => $cc->Middag_object->komponent2,
-                        'diet' => ''
-                    ]);
-                }
-
-                if(!is_null($cc->Middag_object->komponent3) && $cc->Middag_object->komponent3 != 'Ingenting') {
-                    $labels->push([
-                        'date' => $formatter->format($dateTime),
-                        'amount' => $dayorders->Middag,
-                        'department' => $dayorders->department->Namn,
-                        'course' => 'Middag: '.$cc->Middag_object->Namn,
-                        'comp' => $cc->Middag_object->komponent3,
-                        'diet' => ''
-                    ]);
-                }
-
-                if(!is_null($cc->Middag_object->komponent4) && $cc->Middag_object->komponent4 != 'Ingenting') {
-                    $labels->push([
-                        'date' => $formatter->format($dateTime),
-                        'amount' => $dayorders->Middag,
-                        'department' => $dayorders->department->Namn,
-                        'course' => 'Middag: '.$cc->Middag_object->Namn,
-                        'comp' => $cc->Middag_object->komponent4,
-                        'diet' => ''
-                    ]);
-                }
-            }
-
-            if(isset($dayorders->Dessert) && $dayorders->Dessert > 0) {
-                if(!is_null($cc->Dessert_object->komponent1) && $cc->Dessert_object->komponent1 != 'Ingenting') {
-                    $labels->push([
-                        'date' => $formatter->format($dateTime),
-                        'amount' => $dayorders->Dessert,
-                        'department' => $dayorders->department->Namn,
-                        'course' => 'Dessert: '.$cc->Dessert_object->Namn,
-                        'comp' => $cc->Dessert_object->komponent1,
-                        'diet' => ''
-                    ]);
-                }
-    
-                if(!is_null($cc->Dessert_object->komponent2) && $cc->Dessert_object->komponent2 != 'Ingenting') {
-                    $labels->push([
-                        'date' => $formatter->format($dateTime),
-                        'amount' => $dayorders->Dessert,
-                        'department' => $dayorders->department->Namn,
-                        'course' => 'Dessert: '.$cc->Dessert_object->Namn,
-                        'comp' => $cc->Dessert_object->komponent2,
-                        'diet' => ''
-                    ]);
-                }
-    
-                if(!is_null($cc->Dessert_object->komponent3) && $cc->Dessert_object->komponent3 != 'Ingenting') {
-                    $labels->push([
-                        'date' => $formatter->format($dateTime),
-                        'amount' => $dayorders->Dessert,
-                        'department' => $dayorders->department->Namn,
-                        'course' => 'Dessert: '.$cc->Dessert_object->Namn,
-                        'comp' => $cc->Dessert_object->komponent3,
-                        'diet' => ''
-                    ]);
-                }
-    
-                if(!is_null($cc->Dessert_object->komponent4) && $cc->Dessert_object->komponent4 != 'Ingenting') {
-                    $labels->push([
-                        'date' => $formatter->format($dateTime),
-                        'amount' => $dayorders->Dessert,
-                        'department' => $dayorders->department->Namn,
-                        'course' => 'Dessert: '.$cc->Dessert_object->Namn,
-                        'comp' => $cc->Dessert_object->komponent4,
-                        'diet' => ''
-                    ]);
-                }    
             }
         }
 

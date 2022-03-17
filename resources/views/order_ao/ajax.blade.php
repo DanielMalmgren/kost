@@ -28,7 +28,7 @@
         @foreach($weekdays as $weekdaynumber => $weekday)
 
             @php
-                $existing = App\Models\OrderAO::where('Datum', $dates[$weekdaynumber]->format('Y-m-d'))->first();
+                $existing = App\Models\OrderAO::where('Datum', $dates[$weekdaynumber]->format('Y-m-d'))->where('Avdelningar_AO_id', $department->id)->first();
                 if(empty($existing)) {
                     $normalkost = $department->Boende - $department->special_diet_needs->sum('Antal');
                     $lunch1 = $normalkost;

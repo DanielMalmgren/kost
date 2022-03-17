@@ -11,6 +11,10 @@ class Course extends Model
 
     public $timestamps = false;
 
+    protected $fillable = [
+        'Namn', 'komponent1', 'komponent2', 'komponent3', 'komponent4'
+    ];
+
     protected $table = 'Ingredienser';
 
     public static function createEmpty(): self

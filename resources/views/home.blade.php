@@ -60,8 +60,8 @@
                 <div class="card-header">Statistik antal beställningar</div>
 
                 <div class="card-body">
-                    @foreach($ordered_amount as $week => $amount)
-                        Vecka {{$week}}: ???<br>
+                    @foreach($ordered_amount_ao as $week => $amount)
+                        Vecka {{$week}}: {{$amount}}<br>
                     @endforeach
                 </div>
             </div>

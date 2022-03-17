@@ -35,7 +35,7 @@ class MenuAOController extends Controller
         setlocale(LC_ALL, 'sv_SE');
         \App::setLocale('sv_SE');
 
-        $courses = Course::orderBy('Namn')->whereNotNull('komponent1')->get();
+        $courses = Course::orderBy('Namn')->whereNotNull('komponent1')->where('Namn', '!=', 'Ingen matsedel lagd')->get();
 
         $current_week = date("W");
         if($request->week >= $current_week) {

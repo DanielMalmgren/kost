@@ -16,4 +16,9 @@ class DepartmentAO extends Model
     {
         return $this->hasMany('App\Models\SpecialDietNeedAO', 'Avdelningar_AO_id');
     }
+
+    public function orders(): HasMany
+    {
+        return $this->hasMany('App\Models\OrderAO', 'Avdelningar_AO_id');
+    }
 }

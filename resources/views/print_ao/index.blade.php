@@ -106,6 +106,7 @@
                                         <th scope="row">{{$sdn->Specialkost}}</th>
 
                                         @if($chosen_courses['Lunch1'][$weekdaynumber]->komponent1 != 'Ingenting')
+                                            <input name="Lunch1[{{$weekdaynumber}}][komponent1][{{$sdn->Specialkost}}]" value="0" type="hidden">
                                             <td><input name="Lunch1[{{$weekdaynumber}}][komponent1][{{$sdn->Specialkost}}]" value="1" type="checkbox"></td>
                                         @endif
                                         @if($chosen_courses['Lunch1'][$weekdaynumber]->komponent2 != 'Ingenting')
