@@ -22,8 +22,26 @@ class PrintAOController extends Controller
 
     public function index(Request $request)
     {
+        $prechosen_week = date("W", strtotime("1 week"));
+
+        $weeks = [];
+        for ($i=0; $i < 6; $i++) { 
+            $weeks[] = date("W", strtotime($i." week"));
+        }
+
+        $data = [
+            'weeks' => $weeks,
+            'prechosen_week' => $prechosen_week,
+            'departments' => DepartmentAO::orderBy('Namn')->get(),
+        ];
+
+        return view('print_ao.index')->with($data);
+    }
+
+    public function choose(Request $request)
+    {
         $year = date("Y");
-        $week = date("W");
+        $week = $request->week;
 
         $dates = [];
         $chosen_courses = [];
@@ -66,8 +84,9 @@ class PrintAOController extends Controller
             'chosen_courses' => $chosen_courses,
             'dates' => $dates,
             'sdns' => $sdns,
+            'week' => $week,
         ];
-        return view('print_ao.index')->with($data);
+        return view('print_ao.choose')->with($data);
     }
 
     private function make_label($weekday, $meal, $component, $dayorders, &$labels, $cc, $dateTime, $request, $department)
@@ -98,7 +117,7 @@ class PrintAOController extends Controller
                 }
             }
         }
-        if(!is_null($cc->$objname->$compname) && $cc->$objname->$compname != 'Ingenting' && $normalamount > 0) {
+        if(!is_null($cc) && !is_null($cc->$objname) && !is_null($cc->$objname->$compname) && $cc->$objname->$compname != 'Ingenting' && $normalamount > 0) {
             $labels->push([
                 'date' => $this->formatter->format($dateTime),
                 'amount' => $normalamount,
@@ -114,7 +133,7 @@ class PrintAOController extends Controller
     public function print(Request $request)
     {
         $year = date("Y");
-        $week = date("W");
+        $week = $request->week;
 
         $labels = collect();
         //För varje dag i veckan...
@@ -139,30 +158,6 @@ class PrintAOController extends Controller
                             }
                         }    
                     }
-
-                    /*if($dayorders->Lunch1 > 0) {
-                        for($component=1; $component <= 4; $component++) {
-                            $this->make_label($i, "Lunch1", $component, $dayorders, $labels, $cc, $dateTime, $request, $department);
-                        }
-                    }
-
-                    if($dayorders->Lunch2 > 0) {
-                        for($component=1; $component <= 4; $component++) {
-                            $this->make_label($i, "Lunch2", $component, $dayorders, $labels, $cc, $dateTime, $request, $department);
-                        }
-                    }
-
-                    if($dayorders->Middag > 0) {
-                        for($component=1; $component <= 4; $component++) {
-                            $this->make_label($i, "Middag", $component, $dayorders, $labels, $cc, $dateTime, $request, $department);
-                        }
-                    }
-
-                    if(isset($dayorders->Dessert) && $dayorders->Dessert > 0) {
-                        for($component=1; $component <= 4; $component++) {
-                            $this->make_label($i, "Dessert", $component, $dayorders, $labels, $cc, $dateTime, $request, $department);
-                        }
-                    }*/
                 }
             }
         }
