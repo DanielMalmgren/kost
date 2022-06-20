@@ -18,7 +18,7 @@ class MenuAOController extends Controller
         $current_week = date("W");
 
         $weeks = [];
-        for ($i=-4; $i < 12; $i++) { 
+        for ($i=0; $i < 12; $i++) { 
             $weeks[] = date("W", strtotime($i." week"));
         }
 

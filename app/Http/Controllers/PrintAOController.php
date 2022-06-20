@@ -42,6 +42,7 @@ class PrintAOController extends Controller
     {
         $year = date("Y");
         $week = $request->week;
+        $enableprinting = false;
 
         $dates = [];
         $chosen_courses = [];
@@ -58,11 +59,12 @@ class PrintAOController extends Controller
                 $chosen_courses['Lunch2'][$i] = $cc->Lunch2_object;
                 $chosen_courses['Middag'][$i] = $cc->Middag_object;
                 $chosen_courses['Dessert'][$i] = $cc->Dessert_object;
+                $enableprinting = true;
             } else {
-                $chosen_courses['Lunch1'][$i] = Course::createEmpty();
-                $chosen_courses['Lunch2'][$i] = Course::createEmpty();
-                $chosen_courses['Middag'][$i] = Course::createEmpty();
-                $chosen_courses['Dessert'][$i] = Course::createEmpty();
+                $chosen_courses['Lunch1'][$i] = Course::makeEmpty();
+                $chosen_courses['Lunch2'][$i] = Course::makeEmpty();
+                $chosen_courses['Middag'][$i] = Course::makeEmpty();
+                $chosen_courses['Dessert'][$i] = Course::makeEmpty();
             }
             $dates[$i] = $dateTime;
         }
@@ -85,6 +87,7 @@ class PrintAOController extends Controller
             'dates' => $dates,
             'sdns' => $sdns,
             'week' => $week,
+            'enableprinting' => $enableprinting,
         ];
         return view('print_ao.choose')->with($data);
     }

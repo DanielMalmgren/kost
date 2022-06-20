@@ -175,5 +175,5 @@
 
     <br>
 
-    <button class="btn btn-primary btn-lg btn-block" id="submit" name="submit" type="submit">Skapa pdf för etikettutskrift</button>
+    <button {{$enableprinting?'':'disabled'}} class="btn btn-primary btn-lg btn-block" id="submit" name="submit" type="submit">Skapa pdf för etikettutskrift</button>
 </form>

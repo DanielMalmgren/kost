@@ -17,9 +17,9 @@ class Course extends Model
 
     protected $table = 'Ingredienser';
 
-    public static function createEmpty(): self
+    public static function makeEmpty(): self
     {
-        return self::create([
+        return self::make([
             'Namn' => 'Ingen matsedel lagd',
             'komponent1' => 'Ingenting',
             'komponent2' => 'Ingenting',
