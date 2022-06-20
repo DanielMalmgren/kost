@@ -133,36 +133,49 @@ class PrintAOController extends Controller
 
     }
 
+    private function print_day($year, $week, $weekday, $request, &$labels)
+    {
+        $dateTime=new \DateTime();
+        $dateTime->setISODate($year, $week, $weekday);
+
+        $cc = MenuAO::where('Datum', $dateTime->format('Y-m-d'))->first();
+
+        //...för varje avdelning...
+        foreach(DepartmentAO::all() as $department) {
+            $dayorders = OrderAO::where('Datum', $dateTime->format('Y-m-d'))->where('Avdelningar_AO_id', $department->id)->first();
+
+            if(isset($dayorders)) {
+
+                //..för varje måltid...
+                foreach(array('Lunch1', 'Lunch2', 'Middag', 'Dessert') as $meal) {
+                    if(isset($dayorders->$meal) && $dayorders->$meal > 0) {
+                        //...och för varje komponent i den måltiden
+                        for($component=1; $component <= 4; $component++) {
+                            $this->make_label($weekday, $meal, $component, $dayorders, $labels, $cc, $dateTime, $request, $department);
+                        }
+                    }    
+                }
+            }
+        }
+    }
+
     public function print(Request $request)
     {
         $year = date("Y");
         $week = $request->week;
 
         $labels = collect();
-        //För varje dag i veckan...
-        for($i=1; $i <= 7; $i++) {
-            $dateTime=new \DateTime();
-            $dateTime->setISODate($year, $week, $i);
-
-            $cc = MenuAO::where('Datum', $dateTime->format('Y-m-d'))->first();
-
-            //...för varje avdelning...
-            foreach(DepartmentAO::all() as $department) {
-                $dayorders = OrderAO::where('Datum', $dateTime->format('Y-m-d'))->where('Avdelningar_AO_id', $department->id)->first();
-
-                if(isset($dayorders)) {
-
-                    //..för varje måltid...
-                    foreach(array('Lunch1', 'Lunch2', 'Middag', 'Dessert') as $meal) {
-                        if(isset($dayorders->$meal) && $dayorders->$meal > 0) {
-                            //...och för varje komponent i den måltiden
-                            for($component=1; $component <= 4; $component++) {
-                                $this->make_label($i, $meal, $component, $dayorders, $labels, $cc, $dateTime, $request, $department);
-                            }
-                        }    
-                    }
-                }
+        if($request->action == 'fullweek') {
+            $filename = 'Etiketter vecka '.$week.'.pdf';
+            //För varje dag i veckan...
+            for($weekday=1; $weekday <= 7; $weekday++) {
+                $this->print_day($year, $week, $weekday, $request, $labels);
             }
+        } else {
+            $dateTime=new \DateTime();
+            $dateTime->setISODate($year, $week, $request->action);
+            $filename = 'Etiketter '.$dateTime->format('Y-m-d').'.pdf';
+            $this->print_day($year, $week, $request->action, $request, $labels);
         }
 
         $data = [
@@ -173,6 +186,6 @@ class PrintAOController extends Controller
 
         $pdf = PDF::loadView('print_ao.pdf', $data);
 
-        return $pdf->download('Etiketter vecka '.$week.'.pdf');
+        return $pdf->download($filename);
     }
 }

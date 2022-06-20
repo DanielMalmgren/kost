@@ -168,6 +168,8 @@
 
                 </div>
             
+                <button {{$enableprinting?'':'disabled'}} class="btn btn-primary btn-lg btn-block" name="action" type="submit" value="{{$weekdaynumber}}">Skapa etikettutskrift för denna dag ({{$weekday." ".$dates[$weekdaynumber]->format('j/n')}})</button>
+
             </div>
 
         @endforeach
@@ -175,5 +177,5 @@
 
     <br>
 
-    <button {{$enableprinting?'':'disabled'}} class="btn btn-primary btn-lg btn-block" id="submit" name="submit" type="submit">Skapa pdf för etikettutskrift</button>
+    <button {{$enableprinting?'':'disabled'}} class="btn btn-primary btn-lg btn-block" name="action" type="submit" value="fullweek">Skapa etikettutskrift för hela veckan</button>
 </form>
