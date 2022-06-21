@@ -36,6 +36,12 @@
                                 <input name="Middag" value="0" type="hidden">
                                 <input {{$department->Middag?"checked":""}} name="Middag" value="1" type="checkbox">
                             </div>
+
+                            <div class="col-2">
+                                <label for="Helg">Helg</label>
+                                <input name="Helg" value="0" type="hidden">
+                                <input {{$department->Helg?"checked":""}} name="Helg" value="1" type="checkbox">
+                            </div>
                         </div>
 
                         <br>

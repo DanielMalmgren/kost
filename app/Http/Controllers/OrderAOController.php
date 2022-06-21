@@ -103,15 +103,25 @@ class OrderAOController extends Controller
             $dates[$i] = $dateTime;
         }
 
-        $weekdays = [
-            1 => 'Måndag',
-            2 => 'Tisdag',
-            3 => 'Onsdag',
-            4 => 'Torsdag',
-            5 => 'Fredag',
-            6 => 'Lördag',
-            7 => 'Söndag'
-        ];
+        if($department->Helg) {
+            $weekdays = [
+                1 => 'Måndag',
+                2 => 'Tisdag',
+                3 => 'Onsdag',
+                4 => 'Torsdag',
+                5 => 'Fredag',
+                6 => 'Lördag',
+                7 => 'Söndag'
+            ];
+        } else {
+            $weekdays = [
+                1 => 'Måndag',
+                2 => 'Tisdag',
+                3 => 'Onsdag',
+                4 => 'Torsdag',
+                5 => 'Fredag'
+            ];            
+        }
 
         $data = [
             'week' => $request->week,
@@ -130,6 +140,11 @@ class OrderAOController extends Controller
     public function store(Request $request)
     {
         for($i=1; $i <= 7; $i++) {
+
+            if(!isset($request->Lunch1[$i]) && !isset($request->Middag[$i])) {
+                continue;
+            }
+
             $dateTime=new \DateTime();
             $dateTime->setISODate($request->year, $request->week, $i);
 
