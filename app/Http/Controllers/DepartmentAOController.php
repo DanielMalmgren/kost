@@ -75,6 +75,8 @@ class DepartmentAOController extends Controller
 
         $department->Namn = $request->namn;
         $department->Boende = $request->boende;
+        $department->Lunch = $request->Lunch;
+        $department->Middag = $request->Middag;
         $department->save();
 
         if(isset($request->special_diet)) {

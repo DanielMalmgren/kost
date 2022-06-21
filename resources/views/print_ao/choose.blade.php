@@ -168,14 +168,17 @@
 
                 </div>
             
-                <button {{$enableprinting?'':'disabled'}} class="btn btn-primary btn-lg btn-block" name="action" type="submit" value="{{$weekdaynumber}}">Skapa etikettutskrift för denna dag ({{$weekday." ".$dates[$weekdaynumber]->format('j/n')}})</button>
+                <div class="form-row">
+                    <div class="col-4">
+                        <button {{$enableprinting?'':'disabled'}} class="btn btn-primary btn-lg btn-block" name="action" type="submit" value="{{$weekdaynumber}}">Skriv ut denna dag ({{$dates[$weekdaynumber]->format('j/n')}})</button>
+                    </div>
+                    <div class="col">
+                    <button {{$enableprinting?'':'disabled'}} class="btn btn-primary btn-lg btn-block" name="action" type="submit" value="fullweek">Skriv ut hela veckan</button>
+                    </div>
+                </div>
 
             </div>
 
         @endforeach
     </div>
-
-    <br>
-
-    <button {{$enableprinting?'':'disabled'}} class="btn btn-primary btn-lg btn-block" name="action" type="submit" value="fullweek">Skapa etikettutskrift för hela veckan</button>
 </form>

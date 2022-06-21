@@ -37,7 +37,7 @@
         .bottom_left {
             position:absolute;
             bottom:0;
-            left:0;
+            left:1mms;
             padding:3mm;
             font-size: 75%;
         }
@@ -45,7 +45,7 @@
         .top_right {
             position:absolute;
             top:0;
-            right:0;
+            right:4mm;
             padding:3mm;
             font-size: 125%;
         }
@@ -53,7 +53,7 @@
         .top_left {
             position:absolute;
             top:0;
-            left:0;
+            left:1mm;
             padding:3mm;
             font-size: 125%;
         }

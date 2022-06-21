@@ -161,9 +161,9 @@ class OrderAOController extends Controller
                         'Namn' => $name,
                     ],
                     [
-                        'Lunch1' => $amounts['Lunch1'],
-                        'Lunch2' => $amounts['Lunch2'],
-                        'Middag' => $amounts['Middag'],
+                        'Lunch1' => isset($amounts['Lunch1'])?$amounts['Lunch1']:null,
+                        'Lunch2' => isset($amounts['Lunch2'])?$amounts['Lunch2']:null,
+                        'Middag' => isset($amounts['Middag'])?$amounts['Middag']:null,
                         'Dessert' => isset($amounts['Dessert'])?$amounts['Dessert']:null,
                     ]
                 );

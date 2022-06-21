@@ -24,6 +24,22 @@
                             <input type="number" min="0" name="boende" class="form-control" value="{{old('boende', $department->Boende)}}">
                         </div>
 
+                        <div class="form-row">
+                            <div class="col-2">
+                                <label for="Lunch">Lunch</label>
+                                <input name="Lunch" value="0" type="hidden">
+                                <input {{$department->Lunch?"checked":""}} name="Lunch" value="1" type="checkbox">
+                            </div>
+
+                            <div class="col-2">
+                                <label for="Middag">Middag</label>
+                                <input name="Middag" value="0" type="hidden">
+                                <input {{$department->Middag?"checked":""}} name="Middag" value="1" type="checkbox">
+                            </div>
+                        </div>
+
+                        <br>
+
                         <label>Specialkostbehov</label>
                         @foreach($special_diet_needs as $special_diet_need)
                             <div class="form-row">

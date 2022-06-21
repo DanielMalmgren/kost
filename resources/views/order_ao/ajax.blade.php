@@ -50,204 +50,44 @@
             <div class="tab-pane fade {{$weekdaynumber==1?'show active':''}}" id="tab{{$weekdaynumber}}" role="tabpanel" aria-labelledby="{{$weekdaynumber}}-tab">
             
                 <br>
+
+                @if($department->Lunch)
             
-                <div class="container">
-                    <div class="row justify-content-center">
-                        <div class="col-md-6">
-
-                            <div class="card">
-                                <div class="card-header">Lunch 1: {{$chosen_courses['Lunch1'][$weekdaynumber]}}</div>
-
-                                <div class="card-body">
-                                    <div class="form-row">
-                                        <div class="col-8">
-                                            <label>Normalkost</label>
-                                        </div>
-                                        <div class="col-3">
-                                            <input type="number" min="0" max="{{$department->Boende}}" name="Lunch1[{{$weekdaynumber}}]" class="form-control Lunch1_{{$weekdaynumber}}" value="{{$lunch1}}" onChange="updateTotal('Lunch1_{{$weekdaynumber}}')">
-                                        </div>
-                                    </div>
-
-                                    @if($department->special_diet_needs->isNotEmpty())
-                                        @foreach($department->special_diet_needs as $special_diet_need)
-
-                                            @php
-                                                $existingdiet = App\Models\OrderDietAO::where('Order_AO_id', $id)->where('Namn', $special_diet_need->Specialkost)->first();
-                                                if(empty($existingdiet)) {
-                                                    $thisdiet = $special_diet_need->Antal;
-                                                } else {
-                                                    $thisdiet = $existingdiet->Lunch1;
-                                                }
-                                            @endphp
-
-                                            <div class="form-row">
-                                                <div class="col-8">
-                                                    <label>{{$special_diet_need->Specialkost}}</label>
-                                                </div>
-                                                <div class="col-3">
-                                                    <input type="number" min="0" max="{{$special_diet_need->Antal}}" name="diet[{{$id}}][{{$special_diet_need->Specialkost}}][Lunch1]" class="form-control Lunch1_{{$weekdaynumber}}" value="{{$thisdiet}}" onChange="updateTotal('Lunch1_{{$weekdaynumber}}')">
-                                                </div>
-                                            </div>
-
-                                        @endforeach
-                                    @endif
-
-                                    <div class="form-row">
-                                        <div class="col-8">
-                                            <label>Totalt</label>
-                                        </div>
-                                        <div class="col-3">
-                                            <input type="number" readonly id="Lunch1_{{$weekdaynumber}}" class="form-control">
-                                        </div>
-                                    </div>
-
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-md-6">
-
-                            <div class="card">
-                                <div class="card-header">Lunch 2: {{$chosen_courses['Lunch2'][$weekdaynumber]}}</div>
-
-                                <div class="card-body">
-                                    <div class="form-row">
-                                        <div class="col-8">
-                                            <label>Normalkost</label>
-                                        </div>
-                                        <div class="col-3">
-                                            <input type="number" min="0" max="{{$department->Boende}}" name="Lunch2[{{$weekdaynumber}}]" class="form-control Lunch2_{{$weekdaynumber}}" value="{{$lunch2}}" onChange="updateTotal('Lunch2_{{$weekdaynumber}}')">
-                                        </div>
-                                    </div>
-
-                                    @if($department->special_diet_needs->isNotEmpty())
-                                        @foreach($department->special_diet_needs as $special_diet_need)
-
-                                            @php
-                                                $existingdiet = App\Models\OrderDietAO::where('Order_AO_id', $id)->where('Namn', $special_diet_need->Specialkost)->first();
-                                                if(empty($existingdiet)) {
-                                                    $thisdiet = 0;
-                                                } else {
-                                                    $thisdiet = $existingdiet->Lunch2;
-                                                }
-                                            @endphp
-
-                                            <div class="form-row">
-                                                <div class="col-8">
-                                                    <label>{{$special_diet_need->Specialkost}}</label>
-                                                </div>
-                                                <div class="col-3">
-                                                    <input type="number" min="0" max="{{$special_diet_need->Antal}}" name="diet[{{$id}}][{{$special_diet_need->Specialkost}}][Lunch2]" class="form-control Lunch2_{{$weekdaynumber}}" value="{{$thisdiet}}" onChange="updateTotal('Lunch2_{{$weekdaynumber}}')">
-                                                </div>
-                                            </div>
-
-                                        @endforeach
-                                    @endif
-
-                                    <div class="form-row">
-                                        <div class="col-8">
-                                            <label>Totalt</label>
-                                        </div>
-                                        <div class="col-3">
-                                            <input type="number" readonly id="Lunch2_{{$weekdaynumber}}" class="form-control">
-                                        </div>
-                                    </div>
-
-                                </div>
-                            </div>
-                        </div>
-
-                    </div>
-
-                    <br>
-
-                    <div class="row justify-content-center">
-                        <div class="col-md-6">
-
-                            <div class="card">
-                                <div class="card-header">Middag: {{$chosen_courses['Middag'][$weekdaynumber]}}</div>
-
-                                <div class="card-body">
-                                    <div class="form-row">
-                                        <div class="col-8">
-                                            <label>Normalkost</label>
-                                        </div>
-                                        <div class="col-3">
-                                            <input type="number" min="0" max="{{$department->Boende}}" name="Middag[{{$weekdaynumber}}]" class="form-control Middag_{{$weekdaynumber}}" value="{{$middag}}" onChange="updateTotal('Middag_{{$weekdaynumber}}')">
-                                        </div>
-                                    </div>
-
-                                    @if($department->special_diet_needs->isNotEmpty())
-                                        @foreach($department->special_diet_needs as $special_diet_need)
-
-                                            @php
-                                                $existingdiet = App\Models\OrderDietAO::where('Order_AO_id', $id)->where('Namn', $special_diet_need->Specialkost)->first();
-                                                if(empty($existingdiet)) {
-                                                    $thisdiet = $special_diet_need->Antal;
-                                                } else {
-                                                    $thisdiet = $existingdiet->Middag;
-                                                }
-                                            @endphp
-
-                                            <div class="form-row">
-                                                <div class="col-8">
-                                                    <label>{{$special_diet_need->Specialkost}}</label>
-                                                </div>
-                                                <div class="col-3">
-                                                    <input type="number" min="0" max="{{$special_diet_need->Antal}}" name="diet[{{$id}}][{{$special_diet_need->Specialkost}}][Middag]" class="form-control Middag_{{$weekdaynumber}}" value="{{$thisdiet}}" onChange="updateTotal('Middag_{{$weekdaynumber}}')">
-                                                </div>
-                                            </div>
-
-                                        @endforeach
-                                    @endif
-
-                                    <div class="form-row">
-                                        <div class="col-8">
-                                            <label>Totalt</label>
-                                        </div>
-                                        <div class="col-3">
-                                            <input type="number" readonly id="Middag_{{$weekdaynumber}}" class="form-control">
-                                        </div>
-                                    </div>
-
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-md-6">
-                            @if($weekdaynumber==4 || $weekdaynumber==6 || $weekdaynumber==7)
+                    <div class="container">
+                        <div class="row justify-content-center">
+                            <div class="col-md-6">
 
                                 <div class="card">
-                                    <div class="card-header">Dessert: {{$chosen_courses['Dessert'][$weekdaynumber]}}</div>
+                                    <div class="card-header">Lunch 1: {{$chosen_courses['Lunch1'][$weekdaynumber]}}</div>
 
                                     <div class="card-body">
                                         <div class="form-row">
                                             <div class="col-8">
-                                                <label>Portioner totalt</label>
+                                                <label>Normalkost</label>
                                             </div>
                                             <div class="col-3">
-                                                <input type="number" min="0" max="{{$department->Boende}}" name="Dessert[{{$weekdaynumber}}]" class="form-control Dessert_{{$weekdaynumber}}" value="{{$dessert}}" onChange="updateTotal('Dessert_{{$weekdaynumber}}')">
+                                                <input type="number" min="0" max="{{$department->Boende}}" name="Lunch1[{{$weekdaynumber}}]" class="form-control Lunch1_{{$weekdaynumber}}" value="{{$lunch1}}" onChange="updateTotal('Lunch1_{{$weekdaynumber}}')">
                                             </div>
                                         </div>
 
                                         @if($department->special_diet_needs->isNotEmpty())
                                             @foreach($department->special_diet_needs as $special_diet_need)
 
-                                            @php
-                                                $existingdiet = App\Models\OrderDietAO::where('Order_AO_id', $id)->where('Namn', $special_diet_need->Specialkost)->first();
-                                                if(empty($existingdiet) || is_null($existingdiet->Dessert)) {
-                                                    $thisdiet = $special_diet_need->Antal;
-                                                } else {
-                                                    $thisdiet = $existingdiet->Dessert;
-                                                }
-                                            @endphp
+                                                @php
+                                                    $existingdiet = App\Models\OrderDietAO::where('Order_AO_id', $id)->where('Namn', $special_diet_need->Specialkost)->first();
+                                                    if(empty($existingdiet)) {
+                                                        $thisdiet = $special_diet_need->Antal;
+                                                    } else {
+                                                        $thisdiet = $existingdiet->Lunch1;
+                                                    }
+                                                @endphp
 
                                                 <div class="form-row">
                                                     <div class="col-8">
                                                         <label>{{$special_diet_need->Specialkost}}</label>
                                                     </div>
                                                     <div class="col-3">
-                                                        <input type="number" min="0" max="{{$special_diet_need->Antal}}" name="diet[{{$id}}][{{$special_diet_need->Specialkost}}][Dessert]" class="form-control Dessert_{{$weekdaynumber}}" value="{{$thisdiet}}" onChange="updateTotal('Dessert_{{$weekdaynumber}}')">
+                                                        <input type="number" min="0" max="{{$special_diet_need->Antal}}" name="diet[{{$id}}][{{$special_diet_need->Specialkost}}][Lunch1]" class="form-control Lunch1_{{$weekdaynumber}}" value="{{$thisdiet}}" onChange="updateTotal('Lunch1_{{$weekdaynumber}}')">
                                                     </div>
                                                 </div>
 
@@ -259,16 +99,188 @@
                                                 <label>Totalt</label>
                                             </div>
                                             <div class="col-3">
-                                                <input type="number" readonly id="Dessert_{{$weekdaynumber}}" class="form-control">
+                                                <input type="number" readonly id="Lunch1_{{$weekdaynumber}}" class="form-control">
                                             </div>
                                         </div>
 
                                     </div>
                                 </div>
-                            @endif
-                        </div>
+                            </div>
 
-                    </div>
+                            <div class="col-md-6">
+
+                                <div class="card">
+                                    <div class="card-header">Lunch 2: {{$chosen_courses['Lunch2'][$weekdaynumber]}}</div>
+
+                                    <div class="card-body">
+                                        <div class="form-row">
+                                            <div class="col-8">
+                                                <label>Normalkost</label>
+                                            </div>
+                                            <div class="col-3">
+                                                <input type="number" min="0" max="{{$department->Boende}}" name="Lunch2[{{$weekdaynumber}}]" class="form-control Lunch2_{{$weekdaynumber}}" value="{{$lunch2}}" onChange="updateTotal('Lunch2_{{$weekdaynumber}}')">
+                                            </div>
+                                        </div>
+
+                                        @if($department->special_diet_needs->isNotEmpty())
+                                            @foreach($department->special_diet_needs as $special_diet_need)
+
+                                                @php
+                                                    $existingdiet = App\Models\OrderDietAO::where('Order_AO_id', $id)->where('Namn', $special_diet_need->Specialkost)->first();
+                                                    if(empty($existingdiet)) {
+                                                        $thisdiet = 0;
+                                                    } else {
+                                                        $thisdiet = $existingdiet->Lunch2;
+                                                    }
+                                                @endphp
+
+                                                <div class="form-row">
+                                                    <div class="col-8">
+                                                        <label>{{$special_diet_need->Specialkost}}</label>
+                                                    </div>
+                                                    <div class="col-3">
+                                                        <input type="number" min="0" max="{{$special_diet_need->Antal}}" name="diet[{{$id}}][{{$special_diet_need->Specialkost}}][Lunch2]" class="form-control Lunch2_{{$weekdaynumber}}" value="{{$thisdiet}}" onChange="updateTotal('Lunch2_{{$weekdaynumber}}')">
+                                                    </div>
+                                                </div>
+
+                                            @endforeach
+                                        @endif
+
+                                        <div class="form-row">
+                                            <div class="col-8">
+                                                <label>Totalt</label>
+                                            </div>
+                                            <div class="col-3">
+                                                <input type="number" readonly id="Lunch2_{{$weekdaynumber}}" class="form-control">
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    @else
+                        <input type="hidden" name="Lunch1[{{$weekdaynumber}}]" value="0">
+                        <input type="hidden" name="Lunch2[{{$weekdaynumber}}]" value="0">
+                    @endif
+
+                    <br>
+
+                    @if($department->Middag)
+
+                        <div class="row justify-content-center">
+                            <div class="col-md-6">
+
+                                <div class="card">
+                                    <div class="card-header">Middag: {{$chosen_courses['Middag'][$weekdaynumber]}}</div>
+
+                                    <div class="card-body">
+                                        <div class="form-row">
+                                            <div class="col-8">
+                                                <label>Normalkost</label>
+                                            </div>
+                                            <div class="col-3">
+                                                <input type="number" min="0" max="{{$department->Boende}}" name="Middag[{{$weekdaynumber}}]" class="form-control Middag_{{$weekdaynumber}}" value="{{$middag}}" onChange="updateTotal('Middag_{{$weekdaynumber}}')">
+                                            </div>
+                                        </div>
+
+                                        @if($department->special_diet_needs->isNotEmpty())
+                                            @foreach($department->special_diet_needs as $special_diet_need)
+
+                                                @php
+                                                    $existingdiet = App\Models\OrderDietAO::where('Order_AO_id', $id)->where('Namn', $special_diet_need->Specialkost)->first();
+                                                    if(empty($existingdiet)) {
+                                                        $thisdiet = $special_diet_need->Antal;
+                                                    } else {
+                                                        $thisdiet = $existingdiet->Middag;
+                                                    }
+                                                @endphp
+
+                                                <div class="form-row">
+                                                    <div class="col-8">
+                                                        <label>{{$special_diet_need->Specialkost}}</label>
+                                                    </div>
+                                                    <div class="col-3">
+                                                        <input type="number" min="0" max="{{$special_diet_need->Antal}}" name="diet[{{$id}}][{{$special_diet_need->Specialkost}}][Middag]" class="form-control Middag_{{$weekdaynumber}}" value="{{$thisdiet}}" onChange="updateTotal('Middag_{{$weekdaynumber}}')">
+                                                    </div>
+                                                </div>
+
+                                            @endforeach
+                                        @endif
+
+                                        <div class="form-row">
+                                            <div class="col-8">
+                                                <label>Totalt</label>
+                                            </div>
+                                            <div class="col-3">
+                                                <input type="number" readonly id="Middag_{{$weekdaynumber}}" class="form-control">
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                @if($weekdaynumber==4 || $weekdaynumber==6 || $weekdaynumber==7)
+
+                                    <div class="card">
+                                        <div class="card-header">Dessert: {{$chosen_courses['Dessert'][$weekdaynumber]}}</div>
+
+                                        <div class="card-body">
+                                            <div class="form-row">
+                                                <div class="col-8">
+                                                    <label>Portioner totalt</label>
+                                                </div>
+                                                <div class="col-3">
+                                                    <input type="number" min="0" max="{{$department->Boende}}" name="Dessert[{{$weekdaynumber}}]" class="form-control Dessert_{{$weekdaynumber}}" value="{{$dessert}}" onChange="updateTotal('Dessert_{{$weekdaynumber}}')">
+                                                </div>
+                                            </div>
+
+                                            @if($department->special_diet_needs->isNotEmpty())
+                                                @foreach($department->special_diet_needs as $special_diet_need)
+
+                                                @php
+                                                    $existingdiet = App\Models\OrderDietAO::where('Order_AO_id', $id)->where('Namn', $special_diet_need->Specialkost)->first();
+                                                    if(empty($existingdiet) || is_null($existingdiet->Dessert)) {
+                                                        $thisdiet = $special_diet_need->Antal;
+                                                    } else {
+                                                        $thisdiet = $existingdiet->Dessert;
+                                                    }
+                                                @endphp
+
+                                                    <div class="form-row">
+                                                        <div class="col-8">
+                                                            <label>{{$special_diet_need->Specialkost}}</label>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <input type="number" min="0" max="{{$special_diet_need->Antal}}" name="diet[{{$id}}][{{$special_diet_need->Specialkost}}][Dessert]" class="form-control Dessert_{{$weekdaynumber}}" value="{{$thisdiet}}" onChange="updateTotal('Dessert_{{$weekdaynumber}}')">
+                                                        </div>
+                                                    </div>
+
+                                                @endforeach
+                                            @endif
+
+                                            <div class="form-row">
+                                                <div class="col-8">
+                                                    <label>Totalt</label>
+                                                </div>
+                                                <div class="col-3">
+                                                    <input type="number" readonly id="Dessert_{{$weekdaynumber}}" class="form-control">
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                @endif
+                            </div>
+
+                        </div>
+                    @else
+                        <input type="hidden" name="Middag[{{$weekdaynumber}}]" value="0">
+                        <input type="hidden" name="Dessert[{{$weekdaynumber}}]" value="0">
+                    @endif
 
                 </div>
             
