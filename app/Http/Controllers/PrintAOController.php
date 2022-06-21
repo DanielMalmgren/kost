@@ -42,7 +42,8 @@ class PrintAOController extends Controller
     {
         $year = date("Y");
         $week = $request->week;
-        $enableprinting = false;
+        $error = null;
+        $warning = '';
 
         $dates = [];
         $chosen_courses = [];
@@ -59,14 +60,23 @@ class PrintAOController extends Controller
                 $chosen_courses['Lunch2'][$i] = $cc->Lunch2_object;
                 $chosen_courses['Middag'][$i] = $cc->Middag_object;
                 $chosen_courses['Dessert'][$i] = $cc->Dessert_object;
-                $enableprinting = true;
             } else {
-                $chosen_courses['Lunch1'][$i] = Course::makeEmpty();
-                $chosen_courses['Lunch2'][$i] = Course::makeEmpty();
-                $chosen_courses['Middag'][$i] = Course::makeEmpty();
-                $chosen_courses['Dessert'][$i] = Course::makeEmpty();
+                //$chosen_courses['Lunch1'][$i] = Course::makeEmpty();
+                //$chosen_courses['Lunch2'][$i] = Course::makeEmpty();
+                //$chosen_courses['Middag'][$i] = Course::makeEmpty();
+                //$chosen_courses['Dessert'][$i] = Course::makeEmpty();
+                $error = 'Matsedel för denna vecka saknas!';
             }
             $dates[$i] = $dateTime;
+        }
+
+        foreach(DepartmentAO::all() as $department) {
+            if(OrderAO::where('Datum', $dateTime->format('Y-m-d'))->where('Avdelningar_AO_id', $department->id)->doesntExist()) {
+                $warning .= $department->Namn.'<br>';
+            }
+        }
+        if($warning != '') {
+            $warning = 'Beställning saknas ifrån följande avdelningar:<br>'.$warning;
         }
 
         $weekdays = [
@@ -87,7 +97,8 @@ class PrintAOController extends Controller
             'dates' => $dates,
             'sdns' => $sdns,
             'week' => $week,
-            'enableprinting' => $enableprinting,
+            'error' => $error,
+            'warning' => $warning,
         ];
         return view('print_ao.choose')->with($data);
     }

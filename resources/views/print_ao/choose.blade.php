@@ -1,3 +1,17 @@
+@isset($error)
+    <div class="alert alert-danger" role="alert">
+        {{$error}}
+    </div>
+@endisset
+
+@empty($error)
+
+@if($warning != '')
+    <div class="alert alert-warning" role="alert">
+        {!!$warning!!}
+    </div>
+@endif
+
 <form method="post" name="question" action="{{action('PrintAOController@print')}}" accept-charset="UTF-8">
     @csrf
 
@@ -170,10 +184,10 @@
             
                 <div class="form-row">
                     <div class="col-4">
-                        <button {{$enableprinting?'':'disabled'}} class="btn btn-primary btn-lg btn-block" name="action" type="submit" value="{{$weekdaynumber}}">Skriv ut denna dag ({{$dates[$weekdaynumber]->format('j/n')}})</button>
+                        <button class="btn btn-primary btn-lg btn-block" name="action" type="submit" value="{{$weekdaynumber}}">Skriv ut denna dag ({{$dates[$weekdaynumber]->format('j/n')}})</button>
                     </div>
                     <div class="col">
-                    <button {{$enableprinting?'':'disabled'}} class="btn btn-primary btn-lg btn-block" name="action" type="submit" value="fullweek">Skriv ut hela veckan</button>
+                    <button  class="btn btn-primary btn-lg btn-block" name="action" type="submit" value="fullweek">Skriv ut hela veckan</button>
                     </div>
                 </div>
 
@@ -182,3 +196,5 @@
         @endforeach
     </div>
 </form>
+
+@endempty
