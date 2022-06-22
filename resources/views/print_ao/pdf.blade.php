@@ -6,8 +6,8 @@
 
     <style>
         @page {
-            margin-top: 11mm;
-            margin-bottom: 5mm;
+            margin-top: 12mm;
+            margin-bottom: 15mm;
             margin-right: 0mm;
             margin-left: 0mm;
         }
@@ -61,7 +61,7 @@
         .center {
             position: absolute; 
             top: 13mm; 
-            left: 30mm; 
+            left: 20mm; 
             font-size: 175%;
         }
 
@@ -79,7 +79,7 @@
                         {{$label['date']}}
                     </div>
                     <div class="center">
-                        {{$label['amount']}} {{$label['comp']}} - {{$label['diet']}}
+                        {{$label['amount']}} {{$label['comp']}} {{$label['diet']==''?'':'-'}} {{$label['diet']}}
                     </div>
                     <div class="top_right">
                         {{$label['department']}}

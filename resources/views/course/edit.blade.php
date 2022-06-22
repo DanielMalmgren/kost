@@ -39,6 +39,7 @@
                             <option {{$course->komponent1=="Ris"?"selected":""}}>Ris</option>
                             <option {{$course->komponent1=="Potatis"?"selected":""}}>Potatis</option>
                             <option {{$course->komponent1=="Makaroner"?"selected":""}}>Makaroner</option>
+                            <option {{$course->komponent1=="Ägg"?"selected":""}}>Ägg</option>
                         </select>
 
                         <br>
@@ -49,6 +50,8 @@
                             <option {{$course->komponent2=="Kött"?"selected":""}}>Kött</option>
                             <option {{$course->komponent2=="Fisk"?"selected":""}}>Fisk</option>
                             <option {{$course->komponent2=="Soppa"?"selected":""}}>Soppa</option>
+                            <option {{$course->komponent2=="Gratäng"?"selected":""}}>Gratäng</option>
+                            <option {{$course->komponent2=="Vegetarisk"?"selected":""}}>Vegetarisk</option>
                         </select>
 
                         <br>
@@ -58,6 +61,7 @@
                             <option {{$course->komponent3=="Ingenting"?"selected":""}}>Ingenting</option>
                             <option {{$course->komponent3=="Varm sås"?"selected":""}}>Varm sås</option>
                             <option {{$course->komponent3=="Kall sås"?"selected":""}}>Kall sås</option>
+                            <option {{$course->komponent3=="Stuvning"?"selected":""}}>Stuvning</option>
                         </select>
 
                         <br>
@@ -67,6 +71,8 @@
                             <option {{$course->komponent4=="Ingenting"?"selected":""}}>Ingenting</option>
                             <option {{$course->komponent4=="Frukt"?"selected":""}}>Frukt</option>
                             <option {{$course->komponent4=="Grönsaker"?"selected":""}}>Grönsaker</option>
+                            <option {{$course->komponent4=="Bröd"?"selected":""}}>Bröd</option>
+                            <option {{$course->komponent4=="Dessert"?"selected":""}}>Dessert</option>
                         </select>
 
                         <br><br>

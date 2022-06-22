@@ -38,6 +38,7 @@
                             <option>Ris</option>
                             <option>Potatis</option>
                             <option>Makaroner</option>
+                            <option>Ägg</option>
                         </select>
 
                         <br>
@@ -48,6 +49,8 @@
                             <option>Kött</option>
                             <option>Fisk</option>
                             <option>Soppa</option>
+                            <option>Gratäng</option>
+                            <option>Vegetariskö</option>
                         </select>
 
                         <br>
@@ -57,6 +60,7 @@
                             <option>Ingenting</option>
                             <option>Varm sås</option>
                             <option>Kall sås</option>
+                            <option>Stuvning</option>
                         </select>
 
                         <br>
@@ -66,6 +70,8 @@
                             <option>Ingenting</option>
                             <option>Frukt</option>
                             <option>Grönsaker</option>
+                            <option>Bröd</option>
+                            <option>Dessert</option>
                         </select>
 
                         <br><br>

@@ -134,6 +134,7 @@ class PrintAOController extends Controller
         if(!is_null($cc) && !is_null($cc->$objname) && !is_null($cc->$objname->$compname) && $cc->$objname->$compname != 'Ingenting' && $normalamount > 0) {
             $labels->push([
                 'date' => $this->formatter->format($dateTime),
+                'sortdate' => $dateTime,
                 'amount' => $normalamount,
                 'department' => $dayorders->department->Namn,
                 'course' => $meal.': '.$cc->$objname->Namn,
@@ -188,6 +189,8 @@ class PrintAOController extends Controller
             $filename = 'Etiketter '.$dateTime->format('Y-m-d').'.pdf';
             $this->print_day($year, $week, $request->action, $request, $labels);
         }
+
+        //logger(print_r($labels, true));
 
         $data = [
             'labels' => $labels,
