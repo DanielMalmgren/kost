@@ -7,7 +7,7 @@
     <style>
         @page {
             margin-top: 12mm;
-            margin-bottom: 15mm;
+            margin-bottom: 20mm;
             margin-right: 0mm;
             margin-left: 0mm;
         }
@@ -16,7 +16,8 @@
             float: left;
             width: 50%;
             height: 37mm;
-            border-style: dashed;
+            border-top-style: dashed;
+            border-width: thin;
             position:relative;
         }
 

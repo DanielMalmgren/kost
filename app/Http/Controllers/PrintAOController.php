@@ -118,6 +118,7 @@ class PrintAOController extends Controller
                         //Är en bock true, skapa en label för den
                         $labels->push([
                             'date' => $this->formatter->format($dateTime),
+                            'sortdate' => $dateTime->format('Y-m-d'),
                             'amount' => $dietamount,
                             'department' => $dayorders->department->Namn,
                             'course' => $meal.': '.$cc->$objname->Namn,
@@ -134,7 +135,7 @@ class PrintAOController extends Controller
         if(!is_null($cc) && !is_null($cc->$objname) && !is_null($cc->$objname->$compname) && $cc->$objname->$compname != 'Ingenting' && $normalamount > 0) {
             $labels->push([
                 'date' => $this->formatter->format($dateTime),
-                'sortdate' => $dateTime,
+                'sortdate' => $dateTime->format('Y-m-d'),
                 'amount' => $normalamount,
                 'department' => $dayorders->department->Namn,
                 'course' => $meal.': '.$cc->$objname->Namn,
@@ -190,10 +191,13 @@ class PrintAOController extends Controller
             $this->print_day($year, $week, $request->action, $request, $labels);
         }
 
-        //logger(print_r($labels, true));
-
         $data = [
-            'labels' => $labels,
+            'labels' => $labels->sortBy([
+                ['sortdate', 'asc'],
+                ['course', 'asc'],
+                ['comp', 'asc'],
+                ['diet', 'asc'],
+            ]),
         ];
 
         //return view('print_ao.pdf')->with($data);
