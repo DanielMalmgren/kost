@@ -6,7 +6,7 @@
 
     <style>
         @page {
-            margin-top: 16mm;
+            margin-top: 11mm;
             margin-bottom: 5mm;
             margin-right: 0mm;
             margin-left: 0mm;
@@ -15,7 +15,7 @@
         .label {
             float: left;
             width: 50%;
-            height: 38mm;
+            height: 37mm;
             border-style: dashed;
             position:relative;
         }
@@ -79,16 +79,13 @@
                         {{$label['date']}}
                     </div>
                     <div class="center">
-                        {{$label['amount']}} {{$label['comp']}}
+                        {{$label['amount']}} {{$label['comp']}} - {{$label['diet']}}
                     </div>
                     <div class="top_right">
                         {{$label['department']}}
                     </div>
                     <div class="bottom_left">
                         {{$label['course']}}
-                    </div>
-                    <div class="bottom_right">
-                        {{$label['diet']}}
                     </div>
                 </div>
             @endforeach
