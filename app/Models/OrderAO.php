@@ -30,11 +30,11 @@ class OrderAO extends Model
         $sunday=new \DateTime();
         $sunday->setISODate($year, $week, 7);
 
-        $result = \DB::select("SELECT sum(Lunch1+Lunch2+Middag+Dessert) FROM Order_AO where RegDatum>=? and RegDatum<=?", [$monday->format('Y-m-d'), $sunday->format('Y-m-d')]);
+        $result = \DB::select("SELECT sum(Lunch1)+sum(Lunch2)+sum(Middag)+sum(Dessert) FROM Order_AO where Datum>=? and Datum<=?", [$monday->format('Y-m-d'), $sunday->format('Y-m-d')]);
         $normal = $result[0]->computed;
         if(!isset($normal)) {$normal=0;}
 
-        $result = \DB::select("SELECT sum(Order_diets_AO.Lunch1+Order_diets_AO.Lunch2+Order_diets_AO.Middag+Order_diets_AO.Dessert) FROM Order_AO, Order_diets_AO where Order_AO.RegDatum>=? and Order_AO.RegDatum<=? and Order_diets_AO.Order_AO_id = Order_AO.id", [$monday->format('Y-m-d'), $sunday->format('Y-m-d')]);
+        $result = \DB::select("SELECT sum(Order_diets_AO.Lunch1+Order_diets_AO.Lunch2+Order_diets_AO.Middag+Order_diets_AO.Dessert) FROM Order_AO, Order_diets_AO where Order_AO.Datum>=? and Order_AO.Datum<=? and Order_diets_AO.Order_AO_id = Order_AO.id", [$monday->format('Y-m-d'), $sunday->format('Y-m-d')]);
         $diet = $result[0]->computed;
         if(!isset($diet)) {$diet=0;}
 
