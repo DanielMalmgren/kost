@@ -8,7 +8,7 @@
     <tbody>
         @foreach($orders as $order)
             <tr>
-                <td>{{$order['name']}}</td>
+                <td>{{$order['name']}} ({{$order['personnr']}})</td>
                 <td>{{$order['amount']}}</td>
             </tr>
             @endforeach

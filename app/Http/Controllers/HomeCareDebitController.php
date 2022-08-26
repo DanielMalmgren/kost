@@ -41,6 +41,7 @@ class HomeCareDebitController extends Controller
             }
             $orders->push([
                 'name' => $customer->Namn,
+                'personnr' => substr($customer->Personnr, 2, 6),
                 'amount' => $amount
             ]);
         }
