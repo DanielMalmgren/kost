@@ -37,6 +37,9 @@ Route::get('/homecareorder/create',     'HomeCareOrderController@create');
 Route::get('/homecareorder/ajax',       'HomeCareOrderController@ajax');
 Route::post('/homecareorder',           'HomeCareOrderController@store');
 
+Route::get('/homecaredebit',            'HomeCareDebitController@index');
+Route::get('/homecaredebit/listajax',   'HomeCareDebitController@listajax');
+
 Route::get('/customer',                 'CustomerController@index');
 Route::get('/customer/create',          'CustomerController@create');
 Route::post('/customer',                'CustomerController@store');

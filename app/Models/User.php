@@ -18,6 +18,7 @@ class User
         $kostgroup = \LdapRecord\Models\ActiveDirectory\Group::find(env('KOST_GROUP'));
         $hemtjgroup = \LdapRecord\Models\ActiveDirectory\Group::find(env('HEMTJ_GROUP'));
         $itsgroup = \LdapRecord\Models\ActiveDirectory\Group::find(env('ITS_GROUP'));
+        $faktgroup = \LdapRecord\Models\ActiveDirectory\Group::find(env('FAKT_GROUP'));
 
         $this->username = $username;
         if(isset($aduser)) {
@@ -27,6 +28,7 @@ class User
             $this->personid = $aduser->employeeID[0];
             $this->isKost = $aduser->groups()->recursive()->exists($kostgroup)||$aduser->groups()->recursive()->exists($itsgroup);
             $this->isHemtj = $aduser->groups()->recursive()->exists($hemtjgroup)||$aduser->groups()->recursive()->exists($itsgroup);
+            $this->isFakt = $aduser->groups()->recursive()->exists($faktgroup)||$aduser->groups()->recursive()->exists($itsgroup);
         }
     }
 

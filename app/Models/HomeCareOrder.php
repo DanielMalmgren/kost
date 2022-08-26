@@ -16,6 +16,11 @@ class HomeCareOrder extends Model
     protected $fillable = [
         'Vecka', 'Grupp', 'Kund_namn', 'Kund_id', 'Kund_personnr', 'Specialkost', 'Bestdatum', 'Bestallare', 'Alt1', 'Alt2', 'Alt3', 'Alt4', 'Alt5', 'Alt6', 'Alt7', 'Alt8'
     ];
+
+    public function amount()
+    {
+        return $this->Alt1 + $this->Alt2 + $this->Alt3 + $this->Alt4 + $this->Alt5 + $this->Alt6 + $this->Alt7 + $this->Alt8;
+    }
 }
 
 //alter table Hemtjanst

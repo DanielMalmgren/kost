@@ -15,6 +15,7 @@
                     <a href="/homecareorder" class="btn btn-primary {{$user->isKost||$user->isHemtj?'':'disabled'}}">Leveranslista</a><br><br>
                     <a href="/menu" class="btn btn-primary {{$user->isKost?'':'disabled'}}">Redigera matsedel</a>
                     <a href="/course" class="btn btn-primary {{$user->isKost?'':'disabled'}}">Redigera maträtter</a>
+                    <a href="/homecaredebit" class="btn btn-primary {{$user->isKost||$user->isHemtj||$user->isFakt?'':'disabled'}}">Debiteringslista</a><br><br>
 
                 </div>
             </div>
