@@ -111,9 +111,11 @@ class PrintAOController extends Controller
         //För den här komponenten, gå över alla relevanta bockar
         if(isset($request->$meal[$weekday]) && isset($request->$meal[$weekday][$compname])) {
             foreach($request->$meal[$weekday][$compname] as $dietname => $enabled) {
-                $dietneed = $department->special_diet_needs->where('Specialkost', $dietname)->first();
-                if(isset($dietneed)) {
-                    $dietamount = $dietneed->Antal;
+                $dietordered = $dayorders->order_diets->filter(function ($item) use ($dietname) {
+                        return strtolower($item['Namn']) == strtolower($dietname);
+                    })->first();
+                if(isset($dietordered) && $dietordered->$meal > 0) {
+                    $dietamount = $dietordered->$meal;
                     if($enabled) {
                         //Är en bock true, skapa en label för den
                         $labels->push([
