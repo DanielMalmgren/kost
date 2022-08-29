@@ -3,7 +3,7 @@
 @section('content')
 <div class="container">
     <div class="row justify-content-center">
-        <div class="col-md-6">
+        <div class="col-md-7">
 
             <div class="card">
                 <div class="card-header">Portionsbeställning för LSS samt hemtjänst</div>
@@ -12,16 +12,17 @@
 
                     <a href="/homecareorder/create" class="btn btn-primary {{$user->isKost||$user->isHemtj?'':'disabled'}}">Lägg matbeställning</a>
                     <a href="/customer" class="btn btn-primary {{$user->isHemtj?'':'disabled'}}">Hantera kunder</a>
-                    <a href="/homecareorder" class="btn btn-primary {{$user->isKost||$user->isHemtj?'':'disabled'}}">Leveranslista</a><br><br>
+                    <a href="/homecareorder" class="btn btn-primary {{$user->isKost||$user->isHemtj?'':'disabled'}}">Leveranslista</a>
+                    <a href="/homecaredebit" class="btn btn-primary {{$user->isKost||$user->isHemtj||$user->isFakt?'':'disabled'}}">Debiteringslista</a><br><br>
                     <a href="/menu" class="btn btn-primary {{$user->isKost?'':'disabled'}}">Redigera matsedel</a>
                     <a href="/course" class="btn btn-primary {{$user->isKost?'':'disabled'}}">Redigera maträtter</a>
-                    <a href="/homecaredebit" class="btn btn-primary {{$user->isKost||$user->isHemtj||$user->isFakt?'':'disabled'}}">Debiteringslista</a><br><br>
+                    <a href="/print_hc" class="btn btn-primary {{$user->isKost?'':'disabled'}}">Skapa etiketter</a>
 
                 </div>
             </div>
         </div>
 
-        <div class="col-md-4">
+        <div class="col-md-3">
 
             <div class="card">
                 <div class="card-header">Statistik antal beställningar</div>
@@ -39,7 +40,7 @@
     <br>
 
     <div class="row justify-content-center">
-        <div class="col-md-6">
+        <div class="col-md-7">
 
             <div class="card">
                 <div class="card-header">Matbeställning för avdelningar äldreomsorg</div>
@@ -55,7 +56,7 @@
             </div>
         </div>
 
-        <div class="col-md-4">
+        <div class="col-md-3">
 
             <div class="card">
                 <div class="card-header">Statistik antal beställningar</div>

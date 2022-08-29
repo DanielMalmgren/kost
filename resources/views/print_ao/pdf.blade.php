@@ -38,7 +38,7 @@
         .bottom_left {
             position:absolute;
             bottom:0;
-            left:1mms;
+            left:1mm;
             padding:3mm;
             font-size: 75%;
         }

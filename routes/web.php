@@ -64,6 +64,9 @@ Route::get('/order_ao/ajax',                'OrderAOController@ajax');
 Route::post('/order_ao',                    'OrderAOController@store');
 Route::get('/order_ao/pdf',                 'OrderAOController@pdf');
 
+Route::get('/print_hc',                     'PrintHCController@index');
+Route::get('/print_hc/print',               'PrintHCController@print');
+
 Route::get('/print_ao',                     'PrintAOController@index');
 Route::get('/print_ao/choose',              'PrintAOController@choose');
 Route::post('/print_ao',                    'PrintAOController@print');
