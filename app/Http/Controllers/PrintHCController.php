@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Menu;
+use App\Models\HomeCareOrder;
 use App\Models\HCLabel;
 use App\Models\HCLabelSpec;
 use App\Models\HCLabelVeg;
@@ -25,6 +27,25 @@ class PrintHCController extends Controller
 
     public function print(Request $request)
     {
+
+        /*
+        //Work in progress! För att kunna skicka med vecka i requesten och få det mer dynamiskt istället för att använda statiska databasvyer
+        if($request->exists('week')) {
+            $labels = collect();
+            for($i=1; $i <= 8; $i++) {
+                $course = Menu::where('Vecka', $request->week)->where('Alternativ', $i)->where('Specialkost', 'Normal')->first()->course;
+                $labels->push([
+                    'Alternativ' => $i,
+                    'Namn' => $course->Namn,
+                    'Ingredienser' => $course->Ingredienser,
+                    'Antal' => HomeCareOrder::where('Vecka', $request->week)->whereNull('Specialkost')->sum('Alt'.$i)
+                ]);
+            }
+
+            logger(print_r($labels, true));
+        }
+        */
+
         if($request->type == 'spec') {
             $labels = HCLabelSpec::all();
         } elseif ($request->type == 'test') {
