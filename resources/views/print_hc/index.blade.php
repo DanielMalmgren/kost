@@ -13,6 +13,7 @@
                     <a href="/print_hc/print?type=normal" class="btn btn-primary">Normalkost</a>
                     <a href="/print_hc/print?type=veg" class="btn btn-primary">Vegetarisk</a>
                     <a href="/print_hc/print?type=spec" class="btn btn-primary">Specialkost</a>
+                    <a href="/print_hc/print?type=test" class="btn btn-primary">Testlådor</a>
 
                 </div>
             </div>

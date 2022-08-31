@@ -60,6 +60,27 @@
         .ph {
             height: 1mm;
         }
+
+        @if($type=='test')
+            .label:before{
+                content: 'Testlåda';
+                position: absolute;
+                top: 0;
+                bottom: 0;
+                left: 100;
+                right: 0;
+                z-index: -1;
+                
+                color: #0d745e;
+                font-size: 60px;
+                font-weight: 500px;
+                display: grid;
+                justify-content: center;
+                align-content: center;
+                opacity: 0.5;
+                transform: rotate(-45deg);
+            }
+        @endif
     </style>
 
     @foreach($labels->split(ceil($labels->count()/2)) as $row)

@@ -27,6 +27,8 @@ class PrintHCController extends Controller
     {
         if($request->type == 'spec') {
             $labels = HCLabelSpec::all();
+        } elseif ($request->type == 'test') {
+            $labels = HCLabel::all();
         } else {
             if($request->type == 'veg') {
                 $labels = HCLabelVeg::all();
@@ -56,6 +58,7 @@ class PrintHCController extends Controller
                 ['Specialkost', 'asc'],
             ]),
             'expiredate' => $expiredate,
+            'type' => $request->type,
         ];
 
         //return view('print_hc.pdf')->with($data);
