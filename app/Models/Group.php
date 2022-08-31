@@ -16,4 +16,9 @@ class Group extends Model
     {
         return $this->hasMany('App\Models\Customer');
     }
+
+    public function orders(): HasMany
+    {
+        return $this->hasMany('App\Models\HomeCareOrder', 'Grupp');
+    }
 }

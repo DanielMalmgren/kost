@@ -7,6 +7,7 @@ use App\Models\Customer;
 use App\Models\Group;
 use App\Models\Menu;
 use App\Models\HomeCareOrder;
+use PDF;
 
 class HomeCareOrderController extends Controller
 {
@@ -78,7 +79,9 @@ class HomeCareOrderController extends Controller
 
     public function listajax(Request $request)
     {
-        $orders = HomeCareOrder::where('Grupp', $request->group)
+        $group = Group::find($request->group);
+
+        $orders = HomeCareOrder::where('Grupp', $group->id)
                 ->where('Vecka', $request->week)
                 ->orderBy('Kund_namn')
                 ->get();
@@ -86,15 +89,48 @@ class HomeCareOrderController extends Controller
         $ordered_amount = [];
         for($i=1; $i <= 8; $i++) { 
             $ordered_amount[$i] = HomeCareOrder::where('Vecka', $request->week)
-                ->where('Grupp', $request->group)
+                ->where('Grupp', $group->id)
                 ->sum('Alt'.$i);
         }
 
         $data = [
             'orders' => $orders,
             'ordered_amount' => $ordered_amount,
+            'group' => $group,
+            'week' => $request->week,
         ];
         return view('homecareorder.listajax')->with($data);
+    }
+
+    public function listpdf(Request $request)
+    {
+        $filename = "Leveranslista vecka ".$request->week.".pdf";
+
+        $orders = collect();
+        logger("Listgrupp: ".$request->listgrupp);
+        foreach(Group::where('listgrupp', $request->listgrupp)->get() as $group) {
+            logger($group->Namn);
+            logger("Antal: ".$group->orders->count());
+            $orders = $orders->merge($group->orders->where('Vecka', $request->week));
+            logger($orders->count()." orders");
+        }
+
+        $ordered_amount = [];
+        for($i=1; $i <= 8; $i++) { 
+            $ordered_amount[$i] = $orders->sum('Alt'.$i);
+        }
+
+        $data = [
+            'orders' => $orders->sortBy('Kund_namn'),
+            'ordered_amount' => $ordered_amount,
+            'listgrupp' => $request->listgrupp,
+        ];
+        
+        //return view('homecareorder.listpdf')->with($data);
+
+        $pdf = PDF::loadView('homecareorder.listpdf', $data);
+
+        return $pdf->download($filename);
     }
 
     public function ajax(Request $request)

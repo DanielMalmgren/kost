@@ -41,4 +41,4 @@
 
 </table>
 
-
+<a href="/homecareorder/listpdf?week={{$week}}&listgrupp={{$group->listgrupp}}" class="btn btn-primary">Skriv ut</a>
