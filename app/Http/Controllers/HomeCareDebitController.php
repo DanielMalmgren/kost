@@ -18,7 +18,7 @@ class HomeCareDebitController extends Controller
     {
         $months = [];
         for ($i=-6; $i <= 0; $i++) {
-            $month = date("Y-m", strtotime($i." month"));
+            $month = date("Y-m",strtotime($i." month",strtotime(date("Y-m-01",strtotime("now")))));
             $weeks = $this->getWeeksInMonth($month);
             $months[$month] = $month.' (vecka '.Arr::first($weeks).'-'.Arr::last($weeks).')';
         }
@@ -33,11 +33,18 @@ class HomeCareDebitController extends Controller
     {
         $weeks = $this->getWeeksInMonth($request->month);
 
+        $sumLSS = 0;
+        $sumHemtj = 0;
         $orders = collect();
         foreach(Customer::orderBy('Namn')->get() as $customer) {
             $amount = 0;
             foreach($customer->orders->whereIn('Vecka', $weeks) as $order) {
                 $amount += $order->amount();
+            }
+            if($customer->group->listgrupp == 'LSS') {
+                $sumLSS += $amount;
+            } else {
+                $sumHemtj += $amount;
             }
             $orders->push([
                 'name' => $customer->Namn,
@@ -48,6 +55,8 @@ class HomeCareDebitController extends Controller
 
         $data = [
             'orders' => $orders,
+            'sumLSS' => $sumLSS,
+            'sumHemtj' => $sumHemtj,
         ];
         return view('homecaredebit.listajax')->with($data);
     }

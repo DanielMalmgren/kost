@@ -13,5 +13,17 @@
             </tr>
             @endforeach
     </tbody>
+    <thead>
+        <tr>
+            <th>Summa hemtjänst</th>
+            <th>{{$sumHemtj}}</th>
+        </tr>
+    </thead>
+    <thead>
+        <tr>
+            <th>Summa LSS</th>
+            <th>{{$sumLSS}}</th>
+        </tr>
+    </thead>
 
 </table>
