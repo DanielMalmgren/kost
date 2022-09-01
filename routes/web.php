@@ -41,6 +41,9 @@ Route::get('/homecareorder/listpdf',    'HomeCareOrderController@listpdf');
 Route::get('/homecaredebit',            'HomeCareDebitController@index');
 Route::get('/homecaredebit/listajax',   'HomeCareDebitController@listajax');
 
+Route::get('/aodebit',                  'AODebitController@index');
+Route::get('/aodebit/listajax',         'AODebitController@listajax');
+
 Route::get('/customer',                 'CustomerController@index');
 Route::get('/customer/create',          'CustomerController@create');
 Route::post('/customer',                'CustomerController@store');
