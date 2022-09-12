@@ -106,13 +106,20 @@ class HomeCareOrderController extends Controller
     {
         $filename = "Leveranslista vecka ".$request->week.".pdf";
 
+        $headingaddition = '';
+
         $orders = collect();
         logger("Listgrupp: ".$request->listgrupp);
         foreach(Group::where('listgrupp', $request->listgrupp)->get() as $group) {
-            logger($group->Namn);
-            logger("Antal: ".$group->orders->count());
-            $orders = $orders->merge($group->orders->where('Vecka', $request->week));
-            logger($orders->count()." orders");
+            $grouporders = $group->orders->where('Vecka', $request->week);
+            if($request->spec == 'normalkost') {
+                $grouporders = $grouporders->where('Specialkost', '');
+                $headingaddition = ' normalkost';
+            } elseif($request->spec == 'specialkost') {
+                $grouporders = $grouporders->where('Specialkost', '!=', '');
+                $headingaddition = ' specialkost';
+            }
+            $orders = $orders->merge($grouporders);
         }
 
         $ordered_amount = [];
@@ -124,6 +131,8 @@ class HomeCareOrderController extends Controller
             'orders' => $orders->sortBy('Kund_namn'),
             'ordered_amount' => $ordered_amount,
             'listgrupp' => $request->listgrupp,
+            'headingaddition' => $headingaddition,
+            'week' => $request->week,
         ];
         
         //return view('homecareorder.listpdf')->with($data);

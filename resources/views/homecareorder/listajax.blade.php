@@ -41,4 +41,6 @@
 
 </table>
 
-<a href="/homecareorder/listpdf?week={{$week}}&listgrupp={{$group->listgrupp}}" class="btn btn-primary">Skriv ut</a>
+<a href="/homecareorder/listpdf?week={{$week}}&listgrupp={{$group->listgrupp}}&spec=all" class="btn btn-primary">Skriv ut</a>
+<a href="/homecareorder/listpdf?week={{$week}}&listgrupp={{$group->listgrupp}}&spec=normalkost" class="btn btn-primary">Skriv ut (enbart normalkost)</a>
+<a href="/homecareorder/listpdf?week={{$week}}&listgrupp={{$group->listgrupp}}&spec=specialkost" class="btn btn-primary">Skriv ut (enbart specialkost)</a>

@@ -28,7 +28,7 @@
 
     </style>
 
-    <h1>Leveranslista {{$listgrupp}}</h1><br>
+    <h1>Leveranslista {{$listgrupp}} vecka {{$week}}{{$headingaddition}}</h1><br>
 
     <table class="table table-bordered table-sm">
         <thead>
