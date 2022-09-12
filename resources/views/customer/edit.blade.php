@@ -50,7 +50,7 @@
                                 <button class="btn btn-primary btn-lg btn-block" type="submit">Spara</button>
                             </div>
                             <div class="col">
-                                <button type="button" class="btn btn-lg btn-danger btn-block" onclick="delete_course()">Radera</button>
+                                <button {{$customer->deletable()?'':'disabled'}} type="button" class="btn btn-lg btn-danger btn-block" onclick="delete_course()">Radera</button>
                             </div>
                         </div>
 

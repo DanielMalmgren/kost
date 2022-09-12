@@ -61,7 +61,7 @@
             height: 1mm;
         }
 
-        @if($type=='test')
+        @if($type=='Test')
             .label:before{
                 content: 'Testlåda';
                 position: absolute;
