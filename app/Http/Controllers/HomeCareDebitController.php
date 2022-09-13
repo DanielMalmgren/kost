@@ -4,8 +4,14 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Storage;
 use App\Models\Customer;
 use App\Models\HomeCareOrder;
+
+use Google\Client;
+use Google\Service\Drive;
+use Google\Service\Sheets\SpreadSheet;
+
 
 class HomeCareDebitController extends Controller
 {
@@ -31,7 +37,116 @@ class HomeCareDebitController extends Controller
 
     public function listajax(Request $request)
     {
-        $weeks = $this->getWeeksInMonth($request->month);
+        $this->makeOrderList($request->month, $orders, $sumLSS, $sumHemtj);
+
+        $data = [
+            'orders' => $orders,
+            'sumLSS' => $sumLSS,
+            'sumHemtj' => $sumHemtj,
+            'month' => $request->month,
+        ];
+        return view('homecaredebit.listajax')->with($data);
+    }
+
+    public function gsheet(Request $request) {
+
+        $user = session()->get('user');
+
+        // configure the Google Client
+        $client = new \Google_Client();
+        $client->setApplicationName('Google Sheets API');
+        $client->setScopes([
+            \Google_Service_Sheets::SPREADSHEETS,
+            \Google_Service_Sheets::DRIVE,
+            \Google_Service_Sheets::DRIVE_FILE,
+        ]);
+        $client->setAccessType('offline');
+        // credentials.json is the key file we downloaded while setting up our Google Sheets API
+        $path = storage_path('app/atv-kost-362311-fbf34f88e292.json');
+        $client->setAuthConfig($path);
+
+        // configure the Sheets Service
+        $service = new \Google_Service_Sheets($client);
+
+        //$bold = new \Google_Service_Sheets_TextFormat();
+        //$bold->setBold(true);
+
+        //$cellFormat = new \Google_Service_Sheets_CellFormat();
+        //$cellFormat->setTextFormat($bold);
+
+        $spreadsheet = new \Google_Service_Sheets_Spreadsheet([
+            'properties' => [
+                'title' => 'Debiteringslista '.$request->month
+            ]
+        ]);
+        $spreadsheet = $service->spreadsheets->create($spreadsheet, [
+            'fields' => 'spreadsheetId'
+        ]);
+        logger("Spreadsheet ID: ".$spreadsheet->spreadsheetId);
+
+        $this->makeOrderList($request->month, $orders, $sumLSS, $sumHemtj);
+
+        $newRow = [
+            'Namn',
+            'Antal portioner'
+        ];
+        $rows = [$newRow];
+        $valueRange = new \Google_Service_Sheets_ValueRange();
+        $valueRange->setValues($rows);
+        $range = 'Sheet1';
+        $options = ['valueInputOption' => 'USER_ENTERED'];
+        $service->spreadsheets_values->append($spreadsheet->spreadsheetId, $range, $valueRange, $options);
+
+        foreach($orders as $order) {
+            $newRow = [
+                $order['name']." (".$order['personnr'].")",
+                $order['amount']
+            ];
+            $rows = [$newRow];
+            $valueRange = new \Google_Service_Sheets_ValueRange();
+            $valueRange->setValues($rows);
+            $range = 'Sheet1';
+            $options = ['valueInputOption' => 'USER_ENTERED'];
+            $service->spreadsheets_values->append($spreadsheet->spreadsheetId, $range, $valueRange, $options);
+        }
+
+        $newRow = [
+            'Summa hemtjänst',
+            $sumHemtj
+        ];
+        $rows = [$newRow];
+        $valueRange = new \Google_Service_Sheets_ValueRange();
+        $valueRange->setValues($rows);
+        $range = 'Sheet1';
+        $options = ['valueInputOption' => 'USER_ENTERED'];
+        $service->spreadsheets_values->append($spreadsheet->spreadsheetId, $range, $valueRange, $options);
+
+        $newRow = [
+            'Summa LSS',
+            $sumLSS
+        ];
+        $rows = [$newRow];
+        $valueRange = new \Google_Service_Sheets_ValueRange();
+        $valueRange->setValues($rows);
+        $range = 'Sheet1';
+        $options = ['valueInputOption' => 'USER_ENTERED'];
+        $service->spreadsheets_values->append($spreadsheet->spreadsheetId, $range, $valueRange, $options);
+
+
+        $service = new \Google_Service_Drive($client);
+
+        $newPermission = new \Google_Service_Drive_Permission();
+        $newPermission->setEmailAddress($user->email);
+        $newPermission->setType('user');
+        $newPermission->setRole('writer');
+        //$permission = $service->permissions->create($spreadsheet->spreadsheetId, $newPermission, array('transferOwnership' => 'true', 'moveToNewOwnersRoot' => 'true'));
+        $permission = $service->permissions->create($spreadsheet->spreadsheetId, $newPermission, array('moveToNewOwnersRoot' => 'true'));
+
+        return($spreadsheet->spreadsheetId);
+    }
+
+    private function makeOrderList($month, &$orders, &$sumLSS, &$sumHemtj) {
+        $weeks = $this->getWeeksInMonth($month);
 
         $sumLSS = 0;
         $sumHemtj = 0;
@@ -52,13 +167,6 @@ class HomeCareDebitController extends Controller
                 'amount' => $amount
             ]);
         }
-
-        $data = [
-            'orders' => $orders,
-            'sumLSS' => $sumLSS,
-            'sumHemtj' => $sumHemtj,
-        ];
-        return view('homecaredebit.listajax')->with($data);
     }
 
     private function getWeeksInMonth($month) {

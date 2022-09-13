@@ -40,6 +40,7 @@ Route::get('/homecareorder/listpdf',    'HomeCareOrderController@listpdf');
 
 Route::get('/homecaredebit',            'HomeCareDebitController@index');
 Route::get('/homecaredebit/listajax',   'HomeCareDebitController@listajax');
+Route::get('/homecaredebit/gsheet',     'HomeCareDebitController@gsheet');
 
 Route::get('/aodebit',                  'AODebitController@index');
 Route::get('/aodebit/listajax',         'AODebitController@listajax');
@@ -54,6 +55,7 @@ Route::delete('/customer/{customer}',   'CustomerController@destroy');
 Route::get('/menu_ao',                  'MenuAOController@edit');
 Route::get('/menu_ao/ajax/{week}',      'MenuAOController@ajax');
 Route::put('/menu_ao',                  'MenuAOController@update');
+Route::get('/menu_ao/pdf',              'MenuAOController@pdf');
 
 Route::get('/department_ao',                    'DepartmentAOController@index');
 Route::get('/department_ao/create',             'DepartmentAOController@create');

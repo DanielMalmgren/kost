@@ -60,13 +60,14 @@
 
                         @if($user->isAO)
                             <a href="/order_ao/create" class="btn btn-primary">Lägg matbeställning</a>
+                            <a href="/menu_ao" class="btn btn-primary">Matsedel</a>
                         @endif
                         @if($user->isFakt)
                             <a href="/aodebit" class="btn btn-primary">Debiteringslista</a>
                         @endif
                         @if($user->isKost)
-                            <a href="/department_ao" class="btn btn-primary">Hantera avdelningar</a><br><br>
-                            <a href="/menu_ao" class="btn btn-primary">Redigera matsedel</a>
+                            <br><br>
+                            <a href="/department_ao" class="btn btn-primary">Hantera avdelningar</a>
                             <a href="/print_ao" class="btn btn-primary">Skapa etiketter</a>
                         @endif
 

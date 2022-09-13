@@ -19,7 +19,7 @@
         <div class="col-md-8">
 
             <div class="card">
-                <div class="card-header">Välj vilka maträtter som ska vara på menyn nedan!</div>
+                <div class="card-header">Meny äldreomsorg</div>
 
                 <div class="card-body">
 

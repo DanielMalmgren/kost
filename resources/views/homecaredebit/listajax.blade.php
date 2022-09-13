@@ -27,3 +27,5 @@
     </thead>
 
 </table>
+
+<a href="/homecaredebit/gsheet?month={{$month}}" class="btn btn-primary">Skapa kalkylark</a>

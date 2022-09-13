@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Course;
 use App\Models\MenuAO;
+use PDF;
 
 class MenuAOController extends Controller
 {
@@ -31,6 +32,8 @@ class MenuAOController extends Controller
 
     public function ajax(Request $request)
     {
+        $user = session()->get('user');
+
         date_default_timezone_set('Europe/Stockholm');
         setlocale(LC_ALL, 'sv_SE');
         \App::setLocale('sv_SE');
@@ -69,6 +72,7 @@ class MenuAOController extends Controller
             'chosen_courses' => $chosen_courses,
             'dates' => $dates,
             'weekdays' => $weekdays,
+            'user' => $user,
         ];
         return view('menu_ao.ajax')->with($data);
     }
@@ -115,5 +119,53 @@ class MenuAOController extends Controller
         }
 
         return redirect('/')->with('success', 'Matsedeln har sparats');
+    }
+
+    public function pdf(Request $request)
+    {
+        date_default_timezone_set('Europe/Stockholm');
+        setlocale(LC_ALL, 'sv_SE');
+        \App::setLocale('sv_SE');
+
+        $current_week = date("W");
+        if($request->week >= $current_week) {
+            $year = date("Y");
+        } else {
+            $year = date("Y")+1;
+        }
+
+        $dates = [];
+        $chosen_courses = [];
+        for($i=1; $i <= 7; $i++) {
+            $dateTime=new \DateTime();
+            $dateTime->setISODate($year, $request->week, $i);
+            $chosen_courses[$i] = MenuAO::where('Datum', $dateTime->format('Y-m-d'))->first();
+            $dates[$i] = $dateTime;
+        }
+
+        $weekdays = [
+            1 => 'Måndag',
+            2 => 'Tisdag',
+            3 => 'Onsdag',
+            4 => 'Torsdag',
+            5 => 'Fredag',
+            6 => 'Lördag',
+            7 => 'Söndag'
+        ];
+
+        $data = [
+            'week' => $request->week,
+            'chosen_courses' => $chosen_courses,
+            'dates' => $dates,
+            'weekdays' => $weekdays,
+        ];
+
+        //return view('menu_ao.pdf')->with($data);
+
+        $filename = 'Matsedel vecka '.$request->week.'.pdf';
+
+        $pdf = PDF::loadView('menu_ao.pdf', $data);
+
+        return $pdf->download($filename);
     }
 }

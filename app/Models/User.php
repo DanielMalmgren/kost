@@ -8,6 +8,7 @@ class User
     public $username;
     public $title;
     public $organization;
+    public $email;
     public $personid;
     public $isKost;
     public $isHemtj;
@@ -27,11 +28,14 @@ class User
             $this->title = substr($aduser->title[0], 0, 22);
             $this->organization = $aduser->company[0];
             $this->personid = $aduser->employeeID[0];
+            $this->email = $aduser->mail[0];
             $this->isKost = $aduser->groups()->recursive()->exists($kostgroup)||$aduser->groups()->recursive()->exists($itsgroup);
             $this->isHemtj = $aduser->groups()->recursive()->exists($hemtjgroup)||$aduser->groups()->recursive()->exists($itsgroup)||$aduser->groups()->recursive()->exists($kostgroup);
             $this->isAO = $aduser->groups()->recursive()->exists($aogroup)||$aduser->groups()->recursive()->exists($itsgroup)||$aduser->groups()->recursive()->exists($kostgroup);
             $this->isFakt = $aduser->groups()->recursive()->exists($faktgroup)||$aduser->groups()->recursive()->exists($itsgroup)||$aduser->groups()->recursive()->exists($kostgroup);
         }
+
+        logger("Mail: ".$this->email);
     }
 
 }
