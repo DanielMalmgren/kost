@@ -164,7 +164,17 @@ class MenuAOController extends Controller
 
         $filename = 'Matsedel vecka '.$request->week.'.pdf';
 
-        $pdf = PDF::loadView('menu_ao.pdf', $data);
+        $contxt = stream_context_create([
+            'ssl' => [
+                'verify_peer' => FALSE,
+                'verify_peer_name' => FALSE,
+                'allow_self_signed'=> TRUE
+            ]
+        ]);
+        $pdf = PDF::setOptions(['isHtml5ParserEnabled' => true, 'isRemoteEnabled' => true]);
+        $pdf->getDomPDF()->setHttpContext($contxt);
+
+        $pdf->loadView('menu_ao.pdf', $data);
 
         return $pdf->download($filename);
     }

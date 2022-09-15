@@ -8,7 +8,7 @@
         @page { margin: 0px 0px; }
 
         body {
-            background-image:url({{url('/').'/images/Menu_background.png'}});
+            background-image:url({{url('/')}}/images/menu_background.png);
             background-repeat:no-repeat;
             width:100%;
             height:100vh;
