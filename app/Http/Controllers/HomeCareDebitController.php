@@ -52,7 +52,6 @@ class HomeCareDebitController extends Controller
 
         $user = session()->get('user');
 
-        // configure the Google Client
         $client = new \Google_Client();
         $client->setApplicationName('Google Sheets API');
         $client->setScopes([
@@ -61,11 +60,10 @@ class HomeCareDebitController extends Controller
             \Google_Service_Sheets::DRIVE_FILE,
         ]);
         $client->setAccessType('offline');
-        // credentials.json is the key file we downloaded while setting up our Google Sheets API
-        $path = storage_path('app/atv-kost-362311-fbf34f88e292.json');
+
+        $path = storage_path(env('GOOGLE_AUTH_JSON_PATH'));
         $client->setAuthConfig($path);
 
-        // configure the Sheets Service
         $service = new \Google_Service_Sheets($client);
 
         //$bold = new \Google_Service_Sheets_TextFormat();
@@ -76,7 +74,7 @@ class HomeCareDebitController extends Controller
 
         $spreadsheet = new \Google_Service_Sheets_Spreadsheet([
             'properties' => [
-                'title' => 'Debiteringslista '.$request->month
+                'title' => 'Debiteringslista hemtjänst '.$request->month
             ]
         ]);
         $spreadsheet = $service->spreadsheets->create($spreadsheet, [
@@ -142,7 +140,11 @@ class HomeCareDebitController extends Controller
         //$permission = $service->permissions->create($spreadsheet->spreadsheetId, $newPermission, array('transferOwnership' => 'true', 'moveToNewOwnersRoot' => 'true'));
         $permission = $service->permissions->create($spreadsheet->spreadsheetId, $newPermission, array('moveToNewOwnersRoot' => 'true'));
 
-        return($spreadsheet->spreadsheetId);
+        $data = [
+            'id' => $spreadsheet->spreadsheetId,
+        ];
+        return view('homecaredebit.gsheet')->with($data);
+
     }
 
     private function makeOrderList($month, &$orders, &$sumLSS, &$sumHemtj) {
