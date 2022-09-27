@@ -6,8 +6,8 @@
 
     <style>
         @page {
-            margin-top: 12mm;
-            margin-bottom: 20mm;
+            margin-top: 15mm;
+            margin-bottom: 18mm;
             margin-right: 0mm;
             margin-left: 0mm;
         }

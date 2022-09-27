@@ -6,8 +6,8 @@
 
     <style>
         @page {
-            margin-top: 6mm;
-            margin-bottom: 13mm;
+            margin-top: 7mm;
+            margin-bottom: 3mm;
             margin-right: 0mm;
             margin-left: 0mm;
         }
@@ -15,9 +15,9 @@
         .label {
             float: left;
             width: 50%;
-            height: 55mm;
-            border-top-style: dashed;
-            border-width: thin;
+            height: 57mm;
+            /*border-top-style: dashed;
+            border-width: thin;*/
             position:relative;
         }
 
@@ -31,7 +31,8 @@
             position:absolute;
             bottom:0;
             left:1mm;
-            padding:3mm;
+            padding-bottom:5mm;
+            padding-left:3mm;
             font-size: 75%;
         }
 
