@@ -37,3 +37,5 @@
     </thead>
 
 </table>
+
+<a href="/aodebit/gsheet?month={{$month}}&year={{$year}}" class="btn btn-primary">Skapa kalkylark</a>

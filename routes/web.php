@@ -44,6 +44,7 @@ Route::get('/homecaredebit/gsheet',     'HomeCareDebitController@gsheet');
 
 Route::get('/aodebit',                  'AODebitController@index');
 Route::get('/aodebit/listajax',         'AODebitController@listajax');
+Route::get('/aodebit/gsheet',           'AODebitController@gsheet');
 
 Route::get('/customer',                 'CustomerController@index');
 Route::get('/customer/create',          'CustomerController@create');
