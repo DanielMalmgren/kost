@@ -105,9 +105,9 @@
                     </div>
                     <div class="bottom_left">
                         Alternativ {{$label['Specialkost']=='Vegetarisk'?'vegetarisk':''}} {{$label['Alternativ']}}<br>
-                        Förvaras i kyl max 5 grader.<br>
-                        Stick hål i plasten och värm i micro ca 3 minuter på full effekt.<br>
-                        För information om innehåll kontakta Alléköket, 0120-833 29<br>
+                        Förvaras i kyl max 5 grader<br>
+                        Stick hål i plasten och värm i micro ca 3 minuter på full effekt<br>
+                        För information om innehåll kontakta Solbackens kök, 0120-835 69<br>
                         Bäst före: <b>{{$expiredate}}</b>
                     </div>
                 </div>
