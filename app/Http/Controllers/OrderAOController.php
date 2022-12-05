@@ -16,20 +16,27 @@ class OrderAOController extends Controller
     }
 
     //TODO: Completely remove index, just for demonstration purposes
-    public function index(Request $request)
+    /*public function index(Request $request)
     {
         $data = [
         ];
 
         return view('order_ao.index')->with($data);
-    }
+    }*/
 
     public function create(Request $request)
     {
         $prechosen_week = date("W", strtotime("2 week"));
 
+        $user = session()->get('user');
+        if($user->isKost) {
+            $startweek = -6;
+        } else {
+            $startweek = 0;
+        }
+
         $weeks = [];
-        for ($i=0; $i < 12; $i++) { 
+        for ($i=$startweek; $i < 12; $i++) { 
             $weeks[] = date("W", strtotime($i." week"));
         }
 

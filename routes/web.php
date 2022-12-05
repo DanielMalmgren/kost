@@ -65,7 +65,7 @@ Route::get('/department_ao/{department}/edit',  'DepartmentAOController@edit');
 Route::put('/department_ao/{department}',       'DepartmentAOController@update');
 Route::delete('/department_ao/{department}',    'DepartmentAOController@destroy');
 
-Route::get('/order_ao',                     'OrderAOController@index');
+//Route::get('/order_ao',                     'OrderAOController@index');
 Route::get('/order_ao/create',              'OrderAOController@create');
 Route::get('/order_ao/ajax',                'OrderAOController@ajax');
 Route::post('/order_ao',                    'OrderAOController@store');
