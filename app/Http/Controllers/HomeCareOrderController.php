@@ -182,7 +182,7 @@ class HomeCareOrderController extends Controller
             $too_late = false;
             $almost_too_late = false;
         } else {
-            $too_late = $request->week < date("W", strtotime("2 week"));
+            $too_late = ($request->week < date("W", strtotime("2 week"))) && !($request->week+20 < date("W"));
             $almost_too_late = $request->week == date("W", strtotime("2 week")) && date("N") >= 4;
         }
 

@@ -58,7 +58,7 @@ class OrderAOController extends Controller
             $too_late = false;
             $almost_too_late = false;
         } else {
-            $too_late = $request->week < date("W", strtotime("2 week"));
+            $too_late = ($request->week < date("W", strtotime("2 week"))) && !($request->week+20 < date("W"));
             $almost_too_late = $request->week == date("W", strtotime("2 week")) && date("N") >= 4;
         }
 
@@ -176,19 +176,21 @@ class OrderAOController extends Controller
                 $order_id = $order->id;
             }
 
-            foreach($request->diet[$order_id] as $name => $amounts) {
-                OrderDietAO::updateOrCreate(
-                    [
-                        'Order_AO_id' => $order->id,
-                        'Namn' => $name,
-                    ],
-                    [
-                        'Lunch1' => isset($amounts['Lunch1'])?$amounts['Lunch1']:null,
-                        'Lunch2' => isset($amounts['Lunch2'])?$amounts['Lunch2']:null,
-                        'Middag' => isset($amounts['Middag'])?$amounts['Middag']:null,
-                        'Dessert' => isset($amounts['Dessert'])?$amounts['Dessert']:null,
-                    ]
-                );
+            if($request->diet) {
+                foreach($request->diet[$order_id] as $name => $amounts) {
+                    OrderDietAO::updateOrCreate(
+                        [
+                            'Order_AO_id' => $order->id,
+                            'Namn' => $name,
+                        ],
+                        [
+                            'Lunch1' => isset($amounts['Lunch1'])?$amounts['Lunch1']:null,
+                            'Lunch2' => isset($amounts['Lunch2'])?$amounts['Lunch2']:null,
+                            'Middag' => isset($amounts['Middag'])?$amounts['Middag']:null,
+                            'Dessert' => isset($amounts['Dessert'])?$amounts['Dessert']:null,
+                        ]
+                    );
+                }
             }
 
         }
