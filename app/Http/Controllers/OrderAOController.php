@@ -63,10 +63,12 @@ class OrderAOController extends Controller
         }
 
         $current_week = date("W");
-        if($request->week >= $current_week) {
-            $year = date("Y");
-        } else {
+        if($current_week > 40 && $request->week < 15) {
             $year = date("Y")+1;
+        } elseif($current_week < 15 && $request->week > 40) {
+            $year = date("Y")-1;
+        } else {
+            $year = date("Y");
         }
 
         $dates = [];
