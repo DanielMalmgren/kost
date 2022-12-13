@@ -25,14 +25,29 @@ class DepartmentAO extends Model
 
     public function lunches($year, $month)
     {
-        $orders = OrderAO::where('Avdelningar_AO_id', $this->id)->whereYear('Datum', $year)->whereMonth('Datum', $month);
-        return $orders->sum('Lunch1')+$orders->sum('Lunch2');
+        $result = \DB::select("SELECT sum(Lunch1)+sum(Lunch2) FROM Order_AO where Avdelningar_AO_id=? and year(Datum)=? and month(Datum)=?", [$this->id, $year, $month]);
+        $normal = $result[0]->computed;
+        if(!isset($normal)) {$normal=0;}
+
+        $result = \DB::select("SELECT sum(Order_diets_AO.Lunch1+Order_diets_AO.Lunch2) FROM Order_AO, Order_diets_AO where Avdelningar_AO_id=? and year(Datum)=? and month(Datum)=? and Order_diets_AO.Order_AO_id = Order_AO.id", [$this->id, $year, $month]);
+        $diet = $result[0]->computed;
+        if(!isset($diet)) {$diet=0;}
+
+        return $normal+$diet;
+
     }
 
     public function dinners($year, $month)
     {
+        $result = \DB::select("SELECT sum(Middag) FROM Order_AO where Avdelningar_AO_id=? and year(Datum)=? and month(Datum)=?", [$this->id, $year, $month]);
+        $normal = $result[0]->computed;
+        if(!isset($normal)) {$normal=0;}
 
-        return OrderAO::where('Avdelningar_AO_id', $this->id)->whereYear('Datum', $year)->whereMonth('Datum', $month)->sum('Middag');
+        $result = \DB::select("SELECT sum(Order_diets_AO.Middag) FROM Order_AO, Order_diets_AO where Avdelningar_AO_id=? and year(Datum)=? and month(Datum)=? and Order_diets_AO.Order_AO_id = Order_AO.id", [$this->id, $year, $month]);
+        $diet = $result[0]->computed;
+        if(!isset($diet)) {$diet=0;}
+
+        return $normal+$diet;
     }
 
     public function meals($year, $month)
