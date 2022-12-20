@@ -36,12 +36,14 @@
                     $middag = $normalkost;
                     $dessert = $normalkost;
                     $id=-$weekdaynumber;
+                    $newOrder = true;
                 } else {
                     $lunch1 = $existing->Lunch1;
                     $lunch2 = $existing->Lunch2;
                     $middag = $existing->Middag;
                     $dessert = $existing->Dessert;
                     $id=$existing->id;
+                    $newOrder = false;
                 }
             @endphp
 
@@ -76,7 +78,11 @@
                                                 @php
                                                     $existingdiet = App\Models\OrderDietAO::where('Order_AO_id', $id)->where('Namn', $special_diet_need->Specialkost)->first();
                                                     if(empty($existingdiet)) {
-                                                        $thisdiet = $special_diet_need->Antal;
+                                                        if($newOrder) {
+                                                            $thisdiet = $special_diet_need->Antal;
+                                                        } else {
+                                                            $thisdiet = 0;
+                                                        }
                                                     } else {
                                                         $thisdiet = $existingdiet->Lunch1;
                                                     }
@@ -192,7 +198,11 @@
                                                 @php
                                                     $existingdiet = App\Models\OrderDietAO::where('Order_AO_id', $id)->where('Namn', $special_diet_need->Specialkost)->first();
                                                     if(empty($existingdiet)) {
-                                                        $thisdiet = $special_diet_need->Antal;
+                                                        if($newOrder) {
+                                                            $thisdiet = $special_diet_need->Antal;
+                                                        } else {
+                                                            $thisdiet = 0;
+                                                        }
                                                     } else {
                                                         $thisdiet = $existingdiet->Middag;
                                                     }
@@ -249,7 +259,11 @@
                                             @php
                                                 $existingdiet = App\Models\OrderDietAO::where('Order_AO_id', $id)->where('Namn', $special_diet_need->Specialkost)->first();
                                                 if(empty($existingdiet) || is_null($existingdiet->Dessert)) {
-                                                    $thisdiet = $special_diet_need->Antal;
+                                                    if($newOrder) {
+                                                        $thisdiet = $special_diet_need->Antal;
+                                                    } else {
+                                                        $thisdiet = 0;
+                                                    }
                                                 } else {
                                                     $thisdiet = $existingdiet->Dessert;
                                                 }

@@ -36,10 +36,6 @@
         }
     </style>
 
-     <footer>
-        <p style="position:absolute;bottom:0;">Har du frågor kring beställningen hör av dig till 0120-83264 eller 0120-83295</p>
-    </footer>
-
     <div class="bigcontent">
         Matsedel vecka {{$week}}<br><br>
     </div>
@@ -82,5 +78,11 @@
             </tr>
         @endfor
     </table>
+
+    <br>
+
+    <footer>
+        <p style="position:absolute;bottom:0;">Har du frågor kring beställningen hör av dig till 0120-83295 vardagar mellan klockan 10 och 12</p>
+    </footer>
 
 @endsection
