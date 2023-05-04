@@ -164,12 +164,10 @@ class PrintAOController extends Controller
 
                 //..för varje måltid...
                 foreach(array('Lunch1', 'Lunch2', 'Middag', 'Dessert') as $meal) {
-                    if(isset($dayorders->$meal) && $dayorders->$meal > 0) {
-                        //...och för varje komponent i den måltiden
-                        for($component=1; $component <= 4; $component++) {
-                            $this->make_label($weekday, $meal, $component, $dayorders, $labels, $cc, $dateTime, $request, $department);
-                        }
-                    }    
+                    //...och för varje komponent i den måltiden
+                    for($component=1; $component <= 4; $component++) {
+                        $this->make_label($weekday, $meal, $component, $dayorders, $labels, $cc, $dateTime, $request, $department);
+                    }
                 }
             }
         }

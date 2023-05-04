@@ -246,7 +246,7 @@
                                     <div class="card-body">
                                         <div class="form-row">
                                             <div class="col-8">
-                                                <label>Portioner totalt</label>
+                                                <label>Normalkost</label>
                                             </div>
                                             <div class="col-3">
                                                 <input type="number" min="0" max="{{$department->Boende}}" name="Dessert[{{$weekdaynumber}}]" class="form-control Dessert_{{$weekdaynumber}}" value="{{$dessert}}" onChange="updateTotal('Dessert_{{$weekdaynumber}}')">
