@@ -39,17 +39,29 @@
             <table>
                 <tr>
                     <td width="90px">Lunch 1</td>
-                    <td>{{$chosen_courses[$weekday]->Lunch1_object->Namn}}</td>
+                    @if(isset($chosen_courses[$weekday]))
+                        <td>{{$chosen_courses[$weekday]->Lunch1_object->Namn}}</td>
+                    @else
+                        <td>Ingen meny lagd för denna dag</td>
+                    @endif
                 </tr>
                 <tr>
                     <td width="90px">Kvällsmat</td>
-                    <td>{{$chosen_courses[$weekday]->Middag_object->Namn}}</td>
+                    @if(isset($chosen_courses[$weekday]))
+                        <td>{{$chosen_courses[$weekday]->Middag_object->Namn}}</td>
+                    @else
+                        <td>Ingen meny lagd för denna dag</td>
+                    @endif
                 </tr>
 
                 @if($weekday==4 || $weekday==6 || $weekday==7)
                     <tr>
                         <td width="90px">Dessert</td>
-                        <td>{{$chosen_courses[$weekday]->Dessert_object->Namn}}</td>
+                        @if(isset($chosen_courses[$weekday]))
+                            <td>{{$chosen_courses[$weekday]->Dessert_object->Namn}}</td>
+                        @else
+                            <td>Ingen meny lagd för denna dag</td>
+                        @endif
                     </tr>
                 @endif
             </table>
@@ -65,7 +77,11 @@
             <table>
                 <tr>
                     <td width="90px">Lunch 2</td>
-                    <td>{{$chosen_courses[1]->Lunch2_object->Namn}}</td>
+                    @if(isset($chosen_courses[1]))
+                        <td>{{$chosen_courses[1]->Lunch2_object->Namn}}</td>
+                    @else
+                        <td>Ingen meny lagd för denna dag</td>
+                    @endif
                 </tr>
             </table>
         </div>
