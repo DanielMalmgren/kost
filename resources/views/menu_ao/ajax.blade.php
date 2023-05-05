@@ -96,7 +96,11 @@
             </div>
         </div>
     @else
-        <a href="/menu_ao/pdf?week={{$week}}" class="btn btn-primary btn-lg btn-block">Skriv ut</a>
+        @if(isset($chosen_courses[1]) && $chosen_courses[1]->Lunch1!=-1)
+            <a href="/menu_ao/pdf?week={{$week}}" class="btn btn-primary btn-lg btn-block">Skriv ut</a>
+        @else
+            <a href="#" class="btn btn-primary btn-lg btn-block disabled">Det finns ingen meny lagd för vecka {{$week}}!</a>
+        @endif
     @endif
 
 </form>
