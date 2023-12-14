@@ -3,7 +3,7 @@
 @section('content')
 <div class="container">
 
-
+    {{--
     @if($user->isHemtj||$user->isFakt)
         <div class="row justify-content-center">
             <div class="col-md-7">
@@ -48,6 +48,7 @@
 
         <br>
     @endif
+    --}}
 
     @if($user->isAO||$user->isFakt)
         <div class="row justify-content-center">
