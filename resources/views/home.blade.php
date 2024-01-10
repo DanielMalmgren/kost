@@ -68,6 +68,9 @@
                         @endif
                         @if($user->isKost)
                             <br><br>
+                            <a href="/menu" class="btn btn-primary">Redigera matsedel</a>
+                            <a href="/course" class="btn btn-primary">Redigera maträtter</a>
+                            <br><br>
                             <a href="/department_ao" class="btn btn-primary">Hantera avdelningar</a>
                             <a href="/print_ao" class="btn btn-primary">Skapa etiketter</a>
                         @endif
