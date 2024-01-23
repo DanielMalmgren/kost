@@ -70,9 +70,8 @@ class PrintAOController extends Controller
             $dates[$i] = $dateTime;
         }
 
-        $dateTime->setISODate($year, $week, 1);
         foreach(DepartmentAO::all() as $department) {
-            if(OrderAO::where('Datum', $dateTime->format('Y-m-d'))->where('Avdelningar_AO_id', $department->id)->doesntExist()) {
+            if(OrderAO::where('Datum', $dates[1]->format('Y-m-d'))->where('Avdelningar_AO_id', $department->id)->doesntExist()) {
                 $warning .= $department->Namn.'<br>';
             }
         }
