@@ -174,6 +174,7 @@ class PrintAOController extends Controller
 
     public function print(Request $request)
     {
+        usleep(50000);
         $year = date("Y");
         $week = $request->week;
 
